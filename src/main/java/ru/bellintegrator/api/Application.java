@@ -1,13 +1,13 @@
-package ru.bellintegrator.api.bellintegratortestproject;
+package ru.bellintegrator.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BellintegratorTestprojectApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BellintegratorTestprojectApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

@@ -1,4 +1,4 @@
-package ru.bellintegrator.api.bellintegratortestproject.controller;
+package ru.bellintegrator.api.controller;
 
 public class Controller {
 
