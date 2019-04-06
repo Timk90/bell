@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.bellintegrator.api</groupId>
-	<artifactId>bellintegrator-testproject</artifactId>
+	<artifactId>bell</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bellintegrator-testproject</name>
 	<description>Demo project for Spring Boot</description>
