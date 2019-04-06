@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 /*
+ * Pattern for model
  * {
   “id”:””,
   “firstName”:””,

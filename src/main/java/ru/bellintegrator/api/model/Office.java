@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 /*
+ *  Pattern for model
+ *  
  * {
   “id”:””, //обязательный параметр
   “name”:””, //обязательный параметр

@@ -29,6 +29,18 @@ CREATE TABLE IF NOT EXISTS Organization (
 );
 
 COMMENT ON TABLE Organization IS 'Организация';
+  
+CREATE TABLE IF NOT EXISTS Office (
+    id               INTEGER               COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
+    version          INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
+    name             VARCHAR(50)  NOT NULL COMMENT 'Название офиса',
+    address          VARCHAR(50)  NOT NULL COMMENT 'Адрес',
+    phone            INTEGER               COMMENT 'Номер телефона',
+    is_active        BOOLEAN               COMMENT 'Рабочий'
+);
+
+COMMENT ON TABLE Office IS 'Офис';
+
 
 ***
 ***

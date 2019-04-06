@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 /*
+ *  Pattern for model
  * 
  * 2. api/organization/{id}
  * method:GET
