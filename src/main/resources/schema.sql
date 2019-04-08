@@ -41,22 +41,32 @@ CREATE TABLE IF NOT EXISTS Office (
 
 COMMENT ON TABLE Office IS 'Офис';
 
-
-***
-***
-***
-// продолжить отсюда. 
-CREATE TABLE IF NOT EXISTS Person_House (
-    person_id   INTEGER  NOT NULL COMMENT 'Уникальный идентификатор человека',
-    house_id    INTEGER  NOT NULL COMMENT 'Уникальный идентификатор дома',
-
-    PRIMARY KEY (person_id, house_id)
+CREATE TABLE IF NOT EXISTS User_Office (
+    user_id   INTEGER  NOT NULL COMMENT 'Уникальный идентификатор человека',
+    office_id    INTEGER  NOT NULL COMMENT 'Уникальный идентификатор офиса',
+    PRIMARY KEY (user_id, office_id)
 );
-COMMENT ON TABLE Person_House IS 'join-таблица для связи человека и дома';
 
-CREATE INDEX IX_Person_House_Id ON Person_House (house_id);
-ALTER TABLE Person_House ADD FOREIGN KEY (house_id) REFERENCES House(id);
+COMMENT ON TABLE User_Office IS 'join-таблица для связи человека и офиса';
 
-CREATE INDEX IX_House_Person_Id ON Person_House (person_id);
-ALTER TABLE Person_House ADD FOREIGN KEY (person_id) REFERENCES Person(id);
+CREATE TABLE IF NOT EXISTS Office_Organization (
+    office_id    INTEGER  NOT NULL COMMENT 'Уникальный идентификатор офиса',
+    organization_id    INTEGER  NOT NULL COMMENT 'Уникальный идентификатор организации',
+    PRIMARY KEY (office_id, organization_id)
+);
+
+COMMENT ON TABLE Office_Organization IS 'join-таблица для офиса и организации';
+
+CREATE INDEX IX_User_Office_Id ON User_Office (user_id);
+ALTER TABLE User_Office ADD FOREIGN KEY (office_id) REFERENCES Office(id);
+
+CREATE INDEX IX_Office_User_Id ON User_Office (office_id);
+ALTER TABLE User_Office ADD FOREIGN KEY (user_id) REFERENCES User(id);
+
+
+CREATE INDEX IX_Office_Organization_Id ON Office_Organization (office_id);
+ALTER TABLE Office_Organization ADD FOREIGN KEY (organization_id) REFERENCES Organization(id);
+
+CREATE INDEX IX_Organization_Office_Id ON Office_Organization (organization_id);
+ALTER TABLE Office_Organization ADD FOREIGN KEY (office_id) REFERENCES Office(id);
 

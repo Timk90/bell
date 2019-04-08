@@ -55,7 +55,7 @@ public class User {
 	@Column(name="middle_name", length = 50)
 	private String middleName;
     
-	@Column(name="middle_name", length = 50)
+	@Column(name="position", length = 50)
 	private String position;
 	
 	private int phone;
