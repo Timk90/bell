@@ -10,12 +10,3 @@ INSERT INTO Organization (id, version, name, full_name, address, inn, kpp) VALUE
 INSERT INTO Organization (id, version, name, full_name, address, is_active) VALUES (2, 0, 'ООО BOSH', 'BOSH','Вавилова 10', true);
 INSERT INTO Organization (id, version, name, full_name, address, phone) VALUES (3, 0, 'SIEMENS', 'ОАО SIEMENS','Партизанская 21', 7327183);
 
-INSERT INTO User_Office (user_id, office_id) VALUES (1, 1);
-INSERT INTO User_Office (user_id, office_id) VALUES (2, 3);
-INSERT INTO User_Office (user_id, office_id) VALUES (3, 1);
-INSERT INTO User_Office (user_id, office_id) VALUES (2, 2);
-
-INSERT INTO Office_Organization (office_id, organization_id) VALUES (1, 2);
-INSERT INTO Office_Organization (office_id, organization_id) VALUES (2, 1);
-INSERT INTO Office_Organization (office_id, organization_id) VALUES (3, 1);
-
