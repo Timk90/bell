@@ -1,30 +1,24 @@
 package ru.bellintegrator.api.model;
 
 import java.sql.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 /*
  * Pattern for model
- * {
-  “id”:””,
-  “firstName”:””,
-  “secondName”:””,
-  “middleName”:””,
-  “position”:””
-  “phone”,””,
-  “docName”:””,
-  “docNumber”:””,
-  “docDate”:””,
-  “citizenshipName”:””,
-  “citizenshipCode”:””,
-  “isIdentified”:”true”
-} 
  * 
  */
 
@@ -44,7 +38,6 @@ public class User {
      */
     @Version
     private Integer version;
-    
 	
 	@Column(name="first_name", length = 50, nullable=false)
 	private String firstName;
@@ -55,34 +48,45 @@ public class User {
 	@Column(name="middle_name", length = 50)
 	private String middleName;
     
-	@Column(name="position", length = 50)
+	@Column(name="position", length = 50, nullable=false)
 	private String position;
 	
-	private int phone;
+	private String phone;
 	
-	@Column(name="doc_name", length = 50)
-	private String docName;
+	//@ManyToOne(fetch = FetchType.LAZY) // not to download all the data from join table. 
+	@ManyToOne
+	@JoinColumn(name = "doc_id")
+	private Doc document;
 	
-	@Column(name="doc_number")
-	private int docNumber;
+	//@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
+	@JoinColumn(name="personal_doc_id")
+	private PersonalDoc personalDocument;
 	
-	@Column(name="doc_date")
-	private Date docDate;
+	//@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
+	@JoinColumn(name="citizenship_id")
+	private Country citizenship;
 	
-	@Column(name="citizenship_name", length = 50)
-	private String sitizenshipName;	
-	
-	
-	@Column(name="citizenship_code")
-	private int sitizenshipCode;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="office_id")
+	private Office office;
 	
 	@Column(name="is_identified")
 	private boolean isIdentified;
-	
-//getters and setters 
 
+	//getters and setters 
+	
 	public long getId() {
 		return id;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	public String getFirstName() {
@@ -117,52 +121,36 @@ public class User {
 		this.position = position;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public String getDocName() {
-		return docName;
+	public Doc getDocument() {
+		return document;
 	}
 
-	public void setDocName(String docName) {
-		this.docName = docName;
+	public void setDocument(Doc document) {
+		this.document = document;
 	}
 
-	public int getDocNumber() {
-		return docNumber;
+	public PersonalDoc getPersonalDocumentDetails() {
+		return personalDocument;
 	}
 
-	public void setDocNumber(int docNumber) {
-		this.docNumber = docNumber;
+	public void setPersonalDocumentDetails(PersonalDoc personalDocumentDetails) {
+		this.personalDocument = personalDocumentDetails;
 	}
 
-	public Date getDocDate() {
-		return docDate;
+	public Country getCitizenship() {
+		return citizenship;
 	}
 
-	public void setDocDate(Date docDate) {
-		this.docDate = docDate;
-	}
-
-	public String getSitizenshipName() {
-		return sitizenshipName;
-	}
-
-	public void setSitizenshipName(String sitizenshipName) {
-		this.sitizenshipName = sitizenshipName;
-	}
-
-	public int getSitizenshipCode() {
-		return sitizenshipCode;
-	}
-
-	public void setSitizenshipCode(int sitizenshipCode) {
-		this.sitizenshipCode = sitizenshipCode;
+	public void setCitizenship(Country sitizenship) {
+		this.citizenship = sitizenship;
 	}
 
 	public boolean isIdentified() {
@@ -172,5 +160,6 @@ public class User {
 	public void setIdentified(boolean isIdentified) {
 		this.isIdentified = isIdentified;
 	}
-	
+
+		
 }

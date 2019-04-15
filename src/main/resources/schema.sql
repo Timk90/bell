@@ -1,8 +1,15 @@
+DROP TABLE IF EXISTS Docs;
+DROP TABLE IF EXISTS Countries;
+DROP TABLE IF EXISTS Organization;
+DROP TABLE IF EXISTS Office;
+DROP TABLE IF EXISTS User_document;
+DROP TABLE IF EXISTS User;
+
 CREATE TABLE IF NOT EXISTS Docs (
 	id               INTEGER               COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
     version          INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
     code             VARCHAR(50)  NOT NULL COMMENT 'Код документа',
-    name             VARCHAR(50)  NOT NULL COMMENT 'Название документа'
+    name             VARCHAR(150)  NOT NULL COMMENT 'Название документа'
 );
 
 COMMENT ON TABLE Docs IS 'Справочник документов';
@@ -63,7 +70,7 @@ CREATE TABLE IF NOT EXISTS User (
     phone            VARCHAR(50)           COMMENT 'Номер телефона',
     doc_id           INTEGER      NOT NULL COMMENT 'Внешний ключ на тип документа',
     personal_doc_id  INTEGER      NOT NULL COMMENT 'Внешний ключ на конкретный документ пользователя',
-    citizenship_id   INTEGER      NOT NULL COMMENT 'Внешний ключ на информация о гражданстве',
+    citizenship_id   INTEGER      NOT NULL COMMENT 'Внешний ключ на информацию о гражданстве',
     office_id        INTEGER      NOT NULL COMMENT 'Внешний ключ на офис',
     is_identified    BOOLEAN               COMMENT 'Идентифицирован?',
     FOREIGN KEY (office_id)          REFERENCES Office(id),

@@ -63,6 +63,8 @@ public class Organization {
 	@Column(name="is_active")
 	private boolean isActive;
 
+	
+	//Getters and Setters
 	public long getId() {
 		return id;
 	}
