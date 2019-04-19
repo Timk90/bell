@@ -1,14 +1,7 @@
-DROP TABLE IF EXISTS Docs;
-DROP TABLE IF EXISTS Countries;
-DROP TABLE IF EXISTS Organization;
-DROP TABLE IF EXISTS Office;
-DROP TABLE IF EXISTS User_document;
-DROP TABLE IF EXISTS User;
-
 CREATE TABLE IF NOT EXISTS Docs (
-	id               INTEGER               COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
-    version          INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
-    code             VARCHAR(50)  NOT NULL COMMENT 'Код документа',
+	id               INTEGER                COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
+    version          INTEGER       NOT NULL COMMENT 'Служебное поле hibernate',
+    code             VARCHAR(50)   NOT NULL COMMENT 'Код документа',
     name             VARCHAR(150)  NOT NULL COMMENT 'Название документа'
 );
 
@@ -55,7 +48,9 @@ CREATE TABLE IF NOT EXISTS User_document (
 	id               INTEGER               COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
     version          INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
     doc_number       VARCHAR(50)  NOT NULL COMMENT 'Номер документа сотрудника',
-    doc_date         DATE         NOT NULL COMMENT 'Дата выдачи'
+    doc_date         DATE         NOT NULL COMMENT 'Дата выдачи',
+    doc_id           INTEGER      NOT NULL COMMENT 'Внешний ключ на тип документа',
+    FOREIGN KEY (doc_id)          REFERENCES Docs(id)
 );
 
 COMMENT ON TABLE User_document IS 'Личная информация документа сотрудника';
@@ -68,13 +63,11 @@ CREATE TABLE IF NOT EXISTS User (
     middle_name      VARCHAR(50)           COMMENT 'Отчество',
     position         VARCHAR(50)  NOT NULL COMMENT 'Должность',
     phone            VARCHAR(50)           COMMENT 'Номер телефона',
-    doc_id           INTEGER      NOT NULL COMMENT 'Внешний ключ на тип документа',
-    personal_doc_id  INTEGER      NOT NULL COMMENT 'Внешний ключ на конкретный документ пользователя',
+    personal_doc_id  INTEGER      NOT NULL COMMENT 'Внешний ключ на документ пользователя',
     citizenship_id   INTEGER      NOT NULL COMMENT 'Внешний ключ на информацию о гражданстве',
     office_id        INTEGER      NOT NULL COMMENT 'Внешний ключ на офис',
     is_identified    BOOLEAN               COMMENT 'Идентифицирован?',
     FOREIGN KEY (office_id)          REFERENCES Office(id),
-    FOREIGN KEY (doc_id)             REFERENCES Docs(id),
     FOREIGN KEY (personal_doc_id)    REFERENCES User_document(id),
     FOREIGN KEY (citizenship_id)     REFERENCES Countries(id)
 );
@@ -83,7 +76,7 @@ COMMENT ON TABLE User IS 'Сотрудник';
 
 CREATE INDEX IX_Office_Organization_Id ON Office(organization_id);
 CREATE INDEX IX_User_Office_Id ON User(office_id);
-CREATE INDEX IX_User_Doc_Id ON User(doc_id);
+CREATE INDEX IX_Personal_Doc_Id ON User_document(doc_id);
 CREATE INDEX IX_User_Personal_Doc_Id ON User(personal_doc_id);
 CREATE INDEX IX_User_Citizenship_Id ON User(citizenship_id);
 

@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 import ru.bellintegrator.api.model.User;
 
 @Repository //I do not know how it works and what means... :(
-public class UserDaoImp implements UserDao {
+public class UserDaoImpl implements UserDao {
 
     private final EntityManager em;
 
     @Autowired
-    public UserDaoImp(EntityManager em) {
+    public UserDaoImpl(EntityManager em) {
         this.em = em;
     }
 

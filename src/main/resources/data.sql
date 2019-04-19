@@ -23,22 +23,22 @@ INSERT INTO Countries (id, version, code, name) VALUES (8,   0, '112', 'Бело
 INSERT INTO Countries (id, version, code, name) VALUES (9,   0, '756', 'Швейцария');
 INSERT INTO Countries (id, version, code, name) VALUES (10,  0, '250', 'Франция');
 
-INSERT INTO Organization (id, version, name, full_name, address, inn, kpp) VALUES (1, 0, 'ЗАО John&CO', 'John&CO','Высокогорная 1', 88098, 789371);
+INSERT INTO Organization (id, version, name, full_name, address, inn, kpp, is_active) VALUES (1, 0, 'ЗАО John&CO', 'John&CO','Высокогорная 1', 88098, 789371, true);
 INSERT INTO Organization (id, version, name, full_name, address, is_active) VALUES (2, 0, 'ООО BOSH', 'BOSH','Вавилова 10', true);
-INSERT INTO Organization (id, version, name, full_name, address, phone) VALUES (3, 0, 'SIEMENS', 'ОАО SIEMENS','Партизанская 21', 7327183);
+INSERT INTO Organization (id, version, name, full_name, address, phone, is_active) VALUES (3, 0, 'SIEMENS', 'ОАО SIEMENS','Партизанская 21', 7327183, false);
 
-INSERT INTO Office (id, version, name, address, organization_id) VALUES (1, 0, 'Головной', 'Декабристов 12-2', 1);
-INSERT INTO Office (id, version, name, address, organization_id) VALUES (2, 0, 'Западный', 'Ленина 1/32', 2);
+INSERT INTO Office (id, version, name, address, organization_id, is_active) VALUES (1, 0, 'Головной', 'Декабристов 12-2', 1, false);
+INSERT INTO Office (id, version, name, address, organization_id, is_active) VALUES (2, 0, 'Западный', 'Ленина 1/32', 2, true);
 INSERT INTO Office (id, version, name, address, phone, is_active, organization_id) VALUES (3, 0, 'Восточный', 'Восстания 231', 890899, true, 3);
 
-INSERT INTO User_document (id, version, doc_number, doc_date) VALUES (1, 0, '9901 881323', '2010-12-21');
-INSERT INTO User (id, version, first_name, position, phone, doc_id, personal_doc_id, citizenship_id, office_id, is_identified) VALUES (1, 0, 'Вася', 'дворник', '+795092323', 1, 1, 10, 1, true);
+INSERT INTO User_document (id, version, doc_number, doc_date, doc_id) VALUES (1, 0, '9901 881323', '2010-12-21', 10);
+INSERT INTO User (id, version, first_name, position, phone, personal_doc_id, citizenship_id, office_id, is_identified) VALUES (1, 0, 'Вася', 'дворник', '+795092323', 1, 1, 1, true);
 
-INSERT INTO User_document (id, version, doc_number, doc_date) VALUES (2, 0, '9901 881323', '2010-11-02');
-INSERT INTO User (id, version, first_name, position, phone, doc_id, personal_doc_id, citizenship_id, office_id, is_identified) VALUES (2, 0, 'Вася', 'дворник', '+795092323', 4, 2, 10, 2, true);
+INSERT INTO User_document (id, version, doc_number, doc_date, doc_id) VALUES (2, 0, '9901 881323', '2010-11-02', 10);
+INSERT INTO User (id, version, first_name, position, phone, personal_doc_id, citizenship_id, office_id, is_identified) VALUES (2, 0, 'Вася', 'дворник', '+795092323', 2, 2, 2, true);
 
-INSERT INTO User_document (id, version, doc_number, doc_date) VALUES (3, 0, '9901 881323', '2000-01-11');
-INSERT INTO User (id, version, first_name, position, phone, doc_id, personal_doc_id, citizenship_id, office_id, is_identified) VALUES (3, 0, 'Андрей', 'сантехник', '+795092323', 10, 3, 1, 3, true);
+INSERT INTO User_document (id, version, doc_number, doc_date, doc_id) VALUES (3, 0, '9901 881323', '2000-01-11', 10);
+INSERT INTO User (id, version, first_name, position, phone, personal_doc_id, citizenship_id, office_id, is_identified) VALUES (3, 0, 'Андрей', 'сантехник', '+795092323', 3, 1, 3, true);
 
 
 

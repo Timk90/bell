@@ -1,30 +1,22 @@
 package ru.bellintegrator.api.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
 /*
  *  Pattern for model
  * 
- * 2. api/organization/{id}
- * method:GET
-	Out:
-	{
-	  “id”:””,
-	  “name”:””,
-	  “fullName”:””,
-	  “inn”:””,
-	  “kpp”:””,
-	  “address”:””,
-	  “phone”,””,
-	  “isActive”:”true”
-}
-*/
+ */
 
 //Organization model
 
@@ -42,7 +34,7 @@ public class Organization {
      */
     @Version
     private Integer version;
-    
+
 	@Column(name="name", length = 50, nullable=false)
 	private String name;
 	
@@ -50,21 +42,46 @@ public class Organization {
 	private String fullName;
 	
 	@Column(name="inn", nullable=false)
-	private int inn;
+	private String inn;
 	
 	@Column(name="kpp", nullable=false)
-	private int kpp;
+	private String kpp;
 	
 	@Column(name="address", length = 50, nullable=false)
 	private String address;
 	
-	private int phone;
+	private String phone;
 	
 	@Column(name="is_active")
 	private boolean isActive;
 
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
+	@JoinColumn(name="organization_id")
+	private List<Office> offices;  
 	
-	//Getters and Setters
+	//Getters and Setters  
+	public List<Office> getOffices() {
+		return offices;
+	}
+
+	public void setOffices(List<Office> offices) {
+		this.offices = offices;
+	}
+	
+	//synchronization of the entities
+	public void addOffice(Office office) {
+		getOffices().add(office);
+		office.setOrganization(this);
+	}
+	
+	public void removeOffice(Office office) {
+		getOffices().remove(office);
+		office.setOrganization(null);
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -85,22 +102,6 @@ public class Organization {
 		this.fullName = fullName;
 	}
 
-	public int getInn() {
-		return inn;
-	}
-
-	public void setInn(int inn) {
-		this.inn = inn;
-	}
-
-	public int getKpp() {
-		return kpp;
-	}
-
-	public void setKpp(int kpp) {
-		this.kpp = kpp;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -109,11 +110,11 @@ public class Organization {
 		this.address = address;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -124,5 +125,22 @@ public class Organization {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
+	public String getInn() {
+		return inn;
+	}
+
+	public void setInn(String inn) {
+		this.inn = inn;
+	}
+
+	public String getKpp() {
+		return kpp;
+	}
+
+	public void setKpp(String kpp) {
+		this.kpp = kpp;
+	}
+	
 	
 }

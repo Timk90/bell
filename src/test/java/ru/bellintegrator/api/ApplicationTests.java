@@ -7,20 +7,31 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import ru.bellintegrator.api.daoOffice.OfficeDao;
+import ru.bellintegrator.api.daoOrganization.OrganizationDao;
 import ru.bellintegrator.api.daoUser.UserDao;
 import ru.bellintegrator.api.model.Country;
 import ru.bellintegrator.api.model.Doc;
+import ru.bellintegrator.api.model.Office;
+import ru.bellintegrator.api.model.Organization;
 import ru.bellintegrator.api.model.PersonalDoc;
 import ru.bellintegrator.api.model.User;
-import ru.bellintegrator.api.service.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
+@Transactional //After I added this LazyInitializationException disappeared
 public class ApplicationTests {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	OfficeDao officeDao;
+	
+	@Autowired
+	OrganizationDao organizationDao;
 	
 	//@Autowired
 	//UserService userService;
@@ -30,14 +41,17 @@ public class ApplicationTests {
 		
 	}
 	
+	//@Test(expected=LazyInitializationException.class)
 	@Test
 	public void checkAllUsers() {
 		List<User> users = userDao.all();
-		
+
 		System.out.println("------------Records from User table-------------");
 		for(User user : users) {
-			Doc doc = user.getDocument();
+			//Hibernate.initialize(user.getPersonalDocument());
+			//Hibernate.initialize(user.getPersonalDocumentDetails());
 			PersonalDoc persDoc = user.getPersonalDocumentDetails();
+			Doc doctype = persDoc.getDocument();
 			Country citizenship = user.getCitizenship();
 
 			System.out.println(user.getId()+","+
@@ -46,14 +60,67 @@ public class ApplicationTests {
 			                   user.getPhone()+","+
 					           user.getPosition()+","+
 			                   user.getSecondName()+","+
-					           doc.getCode()+","+
-			                   doc.getName()+","+
+					           doctype.getCode()+","+
+			                   doctype.getName()+","+
 					           persDoc.getNumber()+","+
 			                   persDoc.getDocDate()+","+
 					           citizenship.getCode()+","+
 			                   citizenship.getName()
 					          );
 		}
+		System.out.println("------------------------------------------------");
+		
+	}
+	
+	@Test
+	public void checkAllOffices() {
+		List<Office> offices = officeDao.all();
+
+		System.out.println("------------Records from Office table-------------");
+		for(Office office : offices) {
+			Organization org = office.getOrganization();
+
+			System.out.println(office.getId()+","+
+			                   office.getAddress()+","+
+					           office.getName()+","+
+					           office.getPhone()+","+
+					           org.getAddress()+","+
+					           org.getFullName()+","+
+					           org.getId()+","+
+					           org.getKpp()+","+
+					           org.getName()+","+
+					           org.getPhone()+","					           
+					          );
+			for(Office tmpOffice : org.getOffices()) {
+				System.out.println("Office name:"+tmpOffice.getId()+":"+tmpOffice.getName());
+			}
+		}
+		System.out.println("------------------------------------------------");
+		
+	}
+	
+	@Test
+	public void checkAllOrganizations() {
+		List<Organization> orgs = organizationDao.all();
+		List<Office> offices; 
+		
+		System.out.println("------------Records from Organization table-------------");
+		for(Organization org : orgs) {
+			offices = org.getOffices();
+
+			System.out.println(org.getId()+","+
+			                   org.getAddress()+","+
+					           org.getFullName()+","+
+					           org.getId()+","+
+					           org.getKpp()+","+
+					           org.getName()+","+
+					           org.getPhone()+","					           
+					          );
+			for(Office tmpOffice : offices) {
+				System.out.println("Office name:"+tmpOffice.getId()+":"+tmpOffice.getName());
+			}
+		}
+
 		System.out.println("------------------------------------------------");
 		
 	}

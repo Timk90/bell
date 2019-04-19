@@ -2,22 +2,18 @@ package ru.bellintegrator.api.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
 /*
  *  Pattern for model
  *  
- * {
-  “id”:””, //обязательный параметр
-  “name”:””, //обязательный параметр
-  “address”:””, //обязательный параметр
-  “phone”,””,
-  “isActive”:”true” //пример
-}* 
  */
 
 //Office model
@@ -43,12 +39,33 @@ public class Office {
 	@Column(name="address", length = 50, nullable=false)
 	private String address;
 	
-	private int phone;
+	private String phone;
 	
 	@Column(name="is_active")
 	private boolean isActive;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="organization_id")
+	private Organization organization;
+	
 
 	//Getters and Setters
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -69,11 +86,11 @@ public class Office {
 		this.address = address;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

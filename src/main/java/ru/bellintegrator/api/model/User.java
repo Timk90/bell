@@ -1,8 +1,5 @@
 package ru.bellintegrator.api.model;
 
-import java.sql.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 /*
@@ -53,24 +48,17 @@ public class User {
 	
 	private String phone;
 	
-	//@ManyToOne(fetch = FetchType.LAZY) // not to download all the data from join table. 
-	@ManyToOne
-	@JoinColumn(name = "doc_id")
-	private Doc document;
-	
-	//@OneToOne(fetch = FetchType.LAZY)
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="personal_doc_id")
 	private PersonalDoc personalDocument;
-	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	@ManyToOne
-	@JoinColumn(name="citizenship_id")
-	private Country citizenship;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="office_id")
 	private Office office;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="citizenship_id")
+	private Country citizenship;
 	
 	@Column(name="is_identified")
 	private boolean isIdentified;
@@ -79,6 +67,22 @@ public class User {
 	
 	public long getId() {
 		return id;
+	}
+
+	public PersonalDoc getPersonalDocument() {
+		return personalDocument;
+	}
+
+	public void setPersonalDocument(PersonalDoc personalDocument) {
+		this.personalDocument = personalDocument;
+	}
+
+	public Office getOffice() {
+		return office;
+	}
+
+	public void setOffice(Office office) {
+		this.office = office;
 	}
 
 	public Integer getVersion() {
@@ -127,14 +131,6 @@ public class User {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public Doc getDocument() {
-		return document;
-	}
-
-	public void setDocument(Doc document) {
-		this.document = document;
 	}
 
 	public PersonalDoc getPersonalDocumentDetails() {
