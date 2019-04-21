@@ -25,46 +25,46 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
-	private long id; 
-	
-    /**
-     * Служебное поле hibernate
-     */
-    @Version
-    private Integer version;
-	
-	@Column(name="first_name", length = 50, nullable=false)
+	@Column(name = "Id")
+	private long id;
+
+	/**
+	 * Служебное поле hibernate
+	 */
+	@Version
+	private Integer version;
+
+	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstName;
-	
-	@Column(name="second_name", length = 50)
+
+	@Column(name = "second_name", length = 50)
 	private String secondName;
-	
-	@Column(name="middle_name", length = 50)
+
+	@Column(name = "middle_name", length = 50)
 	private String middleName;
-    
-	@Column(name="position", length = 50, nullable=false)
+
+	@Column(name = "position", length = 50, nullable = false)
 	private String position;
-	
+
 	private String phone;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="personal_doc_id")
+	@JoinColumn(name = "personal_doc_id")
 	private PersonalDoc personalDocument;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="office_id")
+	@JoinColumn(name = "office_id")
 	private Office office;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="citizenship_id")
+	@JoinColumn(name = "citizenship_id")
 	private Country citizenship;
-	
-	@Column(name="is_identified")
+
+	@Column(name = "is_identified")
 	private boolean isIdentified;
 
-	//getters and setters 
-	
+	// getters and setters
+
 	public long getId() {
 		return id;
 	}
@@ -157,5 +157,4 @@ public class User {
 		this.isIdentified = isIdentified;
 	}
 
-		
 }

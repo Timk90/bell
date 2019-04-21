@@ -16,32 +16,32 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="User_document")
+@Table(name = "User_document")
 public class PersonalDoc {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
-	private long id; 
-	
-    /**
-     * Служебное поле hibernate
-     */
-    @Version
-    private Integer version;
-    
-	@Column(name="doc_number", length = 50, nullable=false)
+	@Column(name = "Id")
+	private long id;
+
+	/**
+	 * Служебное поле hibernate
+	 */
+	@Version
+	private Integer version;
+
+	@Column(name = "doc_number", length = 50, nullable = false)
 	private String number;
-	
-	@Column(name="doc_date")
+
+	@Column(name = "doc_date")
 	@Temporal(TemporalType.DATE)
 	private Date docDate;
-	
-	@ManyToOne(fetch = FetchType.LAZY) // not to download all the data from join table. 
+
+	@ManyToOne(fetch = FetchType.LAZY) // not to download all the data from join table.
 	@JoinColumn(name = "doc_id")
 	private Doc document;
-	
-	//getters ad setters
+
+	// getters ad setters
 	public long getId() {
 		return id;
 	}
@@ -77,5 +77,5 @@ public class PersonalDoc {
 	public void setDocDate(Date docDate) {
 		this.docDate = docDate;
 	}
-	
+
 }

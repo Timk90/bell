@@ -23,46 +23,43 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "Organization")
 public class Organization {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
-	private long id; 
-	
-    /**
-     * Служебное поле hibernate
-     */
-    @Version
-    private Integer version;
+	@Column(name = "Id")
+	private long id;
 
-	@Column(name="name", length = 50, nullable=false)
+	/**
+	 * Служебное поле hibernate
+	 */
+	@Version
+	private Integer version;
+
+	@Column(name = "name", length = 50, nullable = false)
 	private String name;
-	
-	@Column(name="full_name", length = 50, nullable=false)
+
+	@Column(name = "full_name", length = 50, nullable = false)
 	private String fullName;
-	
-	@Column(name="inn", nullable=false)
+
+	@Column(name = "inn", nullable = false)
 	private String inn;
-	
-	@Column(name="kpp", nullable=false)
+
+	@Column(name = "kpp", nullable = false)
 	private String kpp;
-	
-	@Column(name="address", length = 50, nullable=false)
+
+	@Column(name = "address", length = 50, nullable = false)
 	private String address;
-	
+
 	private String phone;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private boolean isActive;
 
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-	)
-	@JoinColumn(name="organization_id")
-	private List<Office> offices;  
-	
-	//Getters and Setters  
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "organization_id")
+	private List<Office> offices;
+
+	// Getters and Setters
 	public List<Office> getOffices() {
 		return offices;
 	}
@@ -70,18 +67,18 @@ public class Organization {
 	public void setOffices(List<Office> offices) {
 		this.offices = offices;
 	}
-	
-	//synchronization of the entities
+
+	// synchronization of the entities
 	public void addOffice(Office office) {
 		getOffices().add(office);
 		office.setOrganization(this);
 	}
-	
+
 	public void removeOffice(Office office) {
 		getOffices().remove(office);
 		office.setOrganization(null);
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -141,6 +138,5 @@ public class Organization {
 	public void setKpp(String kpp) {
 		this.kpp = kpp;
 	}
-	
-	
+
 }

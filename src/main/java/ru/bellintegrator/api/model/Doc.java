@@ -11,25 +11,25 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "Docs")
 public class Doc {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
-	private long id; 
-	
-    /**
-     * Служебное поле hibernate
-     */
-    @Version
-    private Integer version;
-    
-	@Column(name="code", length = 50, nullable=false)
+	@Column(name = "Id")
+	private long id;
+
+	/**
+	 * Служебное поле hibernate
+	 */
+	@Version
+	private Integer version;
+
+	@Column(name = "code", length = 50, nullable = false)
 	private String code;
-	
-	@Column(name="name", length = 150, nullable=false)
+
+	@Column(name = "name", length = 150, nullable = false)
 	private String name;
-	
-	//getters and setters
+
+	// getters and setters
 	public long getId() {
 		return id;
 	}
@@ -58,5 +58,4 @@ public class Doc {
 		this.name = name;
 	}
 
-	
 }

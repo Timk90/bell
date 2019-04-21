@@ -14,22 +14,22 @@ public class Country {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
-	private long id; 
-	
-    /**
-     * Служебное поле hibernate
-     */
-    @Version
-    private Integer version;
-    
-	@Column(name="code", length = 50, nullable=false)
+	@Column(name = "Id")
+	private long id;
+
+	/**
+	 * Служебное поле hibernate
+	 */
+	@Version
+	private Integer version;
+
+	@Column(name = "code", length = 50, nullable = false)
 	private String code;
-	
-	@Column(name="name", length = 50, nullable=false)
+
+	@Column(name = "name", length = 50, nullable = false)
 	private String name;
 
-	//getters and setters
+	// getters and setters
 	public long getId() {
 		return id;
 	}
@@ -57,6 +57,5 @@ public class Country {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 }

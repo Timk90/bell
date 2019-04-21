@@ -21,35 +21,34 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "Office")
 public class Office {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
-	private long id; 
-	
-    /**
-     * Служебное поле hibernate
-     */
-    @Version
-    private Integer version;
-    
-	@Column(name="name", length = 50, nullable=false)
-	private String name;
-	
-	@Column(name="address", length = 50, nullable=false)
-	private String address;
-	
-	private String phone;
-	
-	@Column(name="is_active")
-	private boolean isActive;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="organization_id")
-	private Organization organization;
-	
+	@Column(name = "Id")
+	private long id;
 
-	//Getters and Setters
+	/**
+	 * Служебное поле hibernate
+	 */
+	@Version
+	private Integer version;
+
+	@Column(name = "name", length = 50, nullable = false)
+	private String name;
+
+	@Column(name = "address", length = 50, nullable = false)
+	private String address;
+
+	private String phone;
+
+	@Column(name = "is_active")
+	private boolean isActive;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id")
+	private Organization organization;
+
+	// Getters and Setters
 	public Integer getVersion() {
 		return version;
 	}
@@ -101,7 +100,5 @@ public class Office {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	
 
 }

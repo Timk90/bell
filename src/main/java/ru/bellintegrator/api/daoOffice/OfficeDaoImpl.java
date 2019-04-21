@@ -13,9 +13,7 @@ import ru.bellintegrator.api.model.Office;
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
 	
-	@Autowired
-	private EntityManager em;
-	
+	private final EntityManager em;
 
     @Autowired
     public OfficeDaoImpl(EntityManager em) {
