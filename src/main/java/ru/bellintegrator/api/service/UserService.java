@@ -2,16 +2,26 @@ package ru.bellintegrator.api.service;
 
 import java.util.List;
 
-import ru.bellintegrator.api.daoUser.UserDao;
+import org.springframework.validation.annotation.Validated;
+
 import ru.bellintegrator.api.model.User;
 
-public class UserService {
-
-	UserDao dao;
-
-	public List<User> getAll() {
-
-		List<User> userList = dao.all();
-		return userList;
-	}
+@Validated
+public interface UserService {
+	
+	/*
+	 * возвращает список пользователей
+	 */
+	List<User> users();
+	
+	/*
+	 * возвращает пользователя по id
+	 */
+	User getUserById(long id);
+	
+	/*
+	 * добавляет нового пользователя
+	 */
+	void insertUser(User user);
+	
 }
