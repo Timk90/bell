@@ -17,7 +17,6 @@ import ru.bellintegrator.api.views.UserView;
 //what is a static import? 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,38 +44,20 @@ public class UserController {
 	@ApiOperation(value = "Получить список всех людей", httpMethod = "GET")
 	@GetMapping("/users")
 	public List<UserView> persons() {
-		List<User> users = userService.users();
-		List<UserView> userViews = mapAllUsers(users);
-		for (UserView uv : userViews) {
+		List<UserView> users = userService.users();
+		//List<UserView> userViews = mapAllUsers(users);
+		for (UserView uv : users) {
 			System.out.println(uv.toString());
 		}
-		return userViews;
+		return users;
 	}
 
 	@ApiOperation(value = "Получить конкретного человека", httpMethod = "POST")
 	@GetMapping("/users/{id}")
 	public UserView person(Long id) {
-		User user = userService.getUserById(id);
+		UserView user = userService.getUserById(id);
 		System.out.println(user.toString());
-		return mapUser(user);
+		return user;
 	}
 
-	public static List<UserView> mapAllUsers(List<User> users) {
-		List<UserView> views = new ArrayList<>();
-		for (User user : users) {
-			views.add(new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
-					user.getPhone(), user.getPosition(), user.getPersonalDocument(), user.getOffice(),
-					user.getCitizenship()));
-		}
-
-		return views;
-
-	}
-
-	public static UserView mapUser(User user) {
-		UserView view = new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
-				 user.getPosition(), user.getPhone(), user.getPersonalDocument(), user.getOffice(),
-				user.getCitizenship());
-		return view;
-	}
 }

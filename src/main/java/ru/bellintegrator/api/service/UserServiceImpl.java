@@ -1,5 +1,6 @@
 package ru.bellintegrator.api.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ru.bellintegrator.api.daoUser.UserDao;
 import ru.bellintegrator.api.model.User;
+import ru.bellintegrator.api.views.UserView;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	UserDao dao;
@@ -21,16 +24,15 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<User> users() {
-
+	public List<UserView> users() {
 		List<User> userList = dao.all();
-		return userList;
+		return this.mapAllUsers(userList);
 	}
 
 	@Override
 	@Transactional
-	public User getUserById(Long id) {
-		return dao.loadById(id);
+	public UserView getUserById(Long id) {
+		return this.mapUser(dao.loadById(id));
 	}
 
 	@Override
@@ -38,4 +40,24 @@ public class UserServiceImpl implements UserService {
 	public void insertUser(User user) {
 		dao.save(user);
 	}
+	
+	public static List<UserView> mapAllUsers(List<User> users) {
+		List<UserView> views = new ArrayList<>();
+		for (User user : users) {
+			views.add(new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
+					user.getPhone(), user.getPosition(), user.getPersonalDocument(), user.getOffice(),
+					user.getCitizenship()));
+		}
+
+		return views;
+
+	}
+
+	public static UserView mapUser(User user) {
+		UserView view = new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
+				 user.getPosition(), user.getPhone(), user.getPersonalDocument(), user.getOffice(),
+				user.getCitizenship());
+		return view;
+	}
+	
 }
