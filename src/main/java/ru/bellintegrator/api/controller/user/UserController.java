@@ -42,7 +42,7 @@ public class UserController {
 		userService.insertUser(user);
 	}
 
-	@ApiOperation(value = "Получить список всех людей", httpMethod = "GET", response = List.class)
+	@ApiOperation(value = "Получить список всех людей", httpMethod = "GET")
 	@GetMapping("/users")
 	public List<UserView> persons() {
 		List<User> users = userService.users();
@@ -50,11 +50,10 @@ public class UserController {
 		for (UserView uv : userViews) {
 			System.out.println(uv.toString());
 		}
-
 		return userViews;
 	}
 
-	@ApiOperation(value = "Получить конкретного человека", httpMethod = "POST", response = List.class)
+	@ApiOperation(value = "Получить конкретного человека", httpMethod = "POST")
 	@GetMapping("/users/{id}")
 	public UserView person(Long id) {
 		User user = userService.getUserById(id);
@@ -76,7 +75,7 @@ public class UserController {
 
 	public static UserView mapUser(User user) {
 		UserView view = new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
-				user.getPhone(), user.getPosition(), user.getPersonalDocument(), user.getOffice(),
+				 user.getPosition(), user.getPhone(), user.getPersonalDocument(), user.getOffice(),
 				user.getCitizenship());
 		return view;
 
