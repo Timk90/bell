@@ -17,7 +17,7 @@ public interface UserService {
 	/*
 	 * возвращает пользователя по id
 	 */
-	User getUserById(long id);
+	User getUserById(Long id);
 	
 	/*
 	 * добавляет нового пользователя

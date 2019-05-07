@@ -14,7 +14,7 @@ public class UserView {
 	
 	@NotEmpty
     @ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
-	private long id;
+	private String id;
 
 	@Size(max = 50)
     @NotEmpty(message = "name cannot be null")
@@ -47,7 +47,30 @@ public class UserView {
 	private boolean isIdentified;
 	
 
-    @Override
+    public UserView() {
+	
+    }
+
+	public UserView(@NotEmpty String id,
+			@Size(max = 50) @NotEmpty(message = "name cannot be null") String firstName,
+			@Size(max = 50) String secondName, @Size(max = 50) String middleName,
+			@Size(max = 50) @NotEmpty(message = "position cannot be null") String position,
+			@Size(max = 50) String phone, PersonalDoc personalDocument, Office office, Country citizenship) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.secondName = secondName;
+		this.middleName = middleName;
+		this.position = position;
+		this.phone = phone;
+		this.personalDocument = personalDocument;
+		this.office = office;
+		this.citizenship = citizenship;
+	}
+
+
+
+	@Override
     public String toString() {
         return "{id:" + id + 
         		"officeId:"+ office.getId()+
@@ -55,7 +78,7 @@ public class UserView {
         		";secondName:" + secondName + 
         		";middleName:" + middleName +
         		";position:"+ position+
-        		";phone" + phone+
+        		";phone:" + phone+
         		";docName:" + personalDocument.getDocument().getName()+
         		";docNumber:" +personalDocument.getNumber()+
         		";docDate:"+personalDocument.getDocDate().toString()+

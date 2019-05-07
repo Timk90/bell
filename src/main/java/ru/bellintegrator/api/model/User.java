@@ -26,7 +26,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
-	private long id;
+	private Long id;
 
 	/**
 	 * Служебное поле hibernate
