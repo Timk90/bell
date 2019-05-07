@@ -78,7 +78,5 @@ public class UserController {
 				 user.getPosition(), user.getPhone(), user.getPersonalDocument(), user.getOffice(),
 				user.getCitizenship());
 		return view;
-
 	}
-
 }
