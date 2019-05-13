@@ -1,6 +1,7 @@
 package ru.bellintegrator.api.controller.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,9 +53,9 @@ public class UserController {
 		return users;
 	}
 
-	@ApiOperation(value = "Получить конкретного человека", httpMethod = "POST")
+	@ApiOperation(value = "Получить конкретного человека", httpMethod = "GET")
 	@GetMapping("/users/{id}")
-	public UserView person(Long id) {
+	public UserView person(@PathVariable Long id) {
 		UserView user = userService.getUserById(id);
 		System.out.println(user.toString());
 		return user;

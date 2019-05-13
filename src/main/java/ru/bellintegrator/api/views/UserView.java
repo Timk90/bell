@@ -38,14 +38,19 @@ public class UserView {
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
 
-	private PersonalDoc personalDocument;
+	private String officeID;
 
-	private Office office;
-
-	private Country citizenship;
+	private String citizenship;
+	
+	private String personalDocumentName;
+	
+	private String personalDocumentNumber;
+	
+	private String personalDocumentDate;
 
 	private boolean isIdentified;
-
+	
+	// getters ad setters
 	public String getId() {
 		return id;
 	}
@@ -90,27 +95,19 @@ public class UserView {
 		this.phone = phone;
 	}
 
-	public PersonalDoc getPersonalDocument() {
-		return personalDocument;
+	public String getOfficeID() {
+		return officeID;
 	}
 
-	public void setPersonalDocument(PersonalDoc personalDocument) {
-		this.personalDocument = personalDocument;
+	public void setOfficeID(String officeID) {
+		this.officeID = officeID;
 	}
 
-	public Office getOffice() {
-		return office;
-	}
-
-	public void setOffice(Office office) {
-		this.office = office;
-	}
-
-	public Country getCitizenship() {
+	public String getCitizenship() {
 		return citizenship;
 	}
 
-	public void setCitizenship(Country citizenship) {
+	public void setCitizenship(String citizenship) {
 		this.citizenship = citizenship;
 	}
 
@@ -122,31 +119,64 @@ public class UserView {
 		this.isIdentified = isIdentified;
 	}
 
+	public String getPersonalDocumentName() {
+		return personalDocumentName;
+	}
+
+	public void setPersonalDocumentName(String personalDocumentName) {
+		this.personalDocumentName = personalDocumentName;
+	}
+
+	public String getPersonalDocumentNumber() {
+		return personalDocumentNumber;
+	}
+
+	public void setPersonalDocumentNumber(String personalDocumentNumber) {
+		this.personalDocumentNumber = personalDocumentNumber;
+	}
+
+	public String getPersonalDocumentDate() {
+		return personalDocumentDate;
+	}
+
+	public void setPersonalDocumentDate(String personalDocumentDate) {
+		this.personalDocumentDate = personalDocumentDate;
+	}
+
 	public UserView() {
 
 	}
 
-	public UserView(@NotEmpty String id, @Size(max = 50) @NotEmpty(message = "name cannot be null") String firstName,
-			@Size(max = 50) String secondName, @Size(max = 50) String middleName,
+	public UserView(@Size(max = 50) @NotEmpty(message = "name cannot be null") String id,
+			@Size(max = 50) @NotEmpty(message = "name cannot be null") String firstName,
+			@Size(max = 50) String secondName, 
+			@Size(max = 50) String middleName,
 			@Size(max = 50) @NotEmpty(message = "position cannot be null") String position,
-			@Size(max = 50) String phone, PersonalDoc personalDocument, Office office, Country citizenship) {
-		this.id = id;
-		this.firstName = firstName;
-		this.secondName = secondName;
-		this.middleName = middleName;
-		this.position = position;
-		this.phone = phone;
-		this.personalDocument = personalDocument;
-		this.office = office;
-		this.citizenship = citizenship;
+			@Size(max = 50) String phone, 
+			String personalDocumentName, 
+			String personalDocumentNumber, 
+			String personalDocumentDate, 
+			String officeID, 
+			String citizenship) {
+		this.id = (id!=null) ? id: "no ID";
+		this.firstName = (firstName!=null) ? firstName: "";
+		this.secondName = (secondName!=null) ? secondName: "";
+		this.middleName = (middleName!=null) ? middleName: "";
+		this.position = (phone!=null) ? position: "";
+		this.phone = (phone!=null) ? phone: "";
+		this.personalDocumentName = (personalDocumentName!=null) ? personalDocumentName : "";
+		this.personalDocumentNumber = (personalDocumentNumber!=null) ? personalDocumentNumber : "";
+		this.personalDocumentDate = (personalDocumentDate!=null) ? personalDocumentDate : "";
+		this.officeID = (officeID!=null) ? officeID: "";
+		this.citizenship = (citizenship!=null) ?citizenship: "";
 	}
 
 	@Override
 	public String toString() {
-		return "{id:" + id + "officeId:" + office.getId() + ";firstname:" + firstName + ";secondName:" + secondName
+		return "{id:" + id + "officeId:" + officeID + ";firstname:" + firstName + ";secondName:" + secondName
 				+ ";middleName:" + middleName + ";position:" + position + ";phone:" + phone + ";docName:"
-				+ personalDocument.getDocument().getName() + ";docNumber:" + personalDocument.getNumber() + ";docDate:"
-				+ personalDocument.getDocDate().toString() + ";citizenship:" + citizenship.getName() + ";isidentified:"
+				+ personalDocumentName + ";docNumber:" + personalDocumentNumber + ";docDate:"
+				+ personalDocumentDate + ";citizenship:" + citizenship + ";isidentified:"
 				+ isIdentified + "}";
 	}
 

@@ -41,23 +41,42 @@ public class UserServiceImpl implements UserService {
 		dao.save(user);
 	}
 	
+	@Transactional
 	public static List<UserView> mapAllUsers(List<User> users) {
 		List<UserView> views = new ArrayList<>();
 		for (User user : users) {
-			views.add(new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
-					user.getPhone(), user.getPosition(), user.getPersonalDocument(), user.getOffice(),
-					user.getCitizenship()));
+			views.add(new UserView(user.getId() + "", 
+					user.getFirstName(), 
+					user.getSecondName(), 
+					user.getMiddleName(),
+					user.getPosition(), 
+					user.getPhone(), 
+					user.getPersonalDocument().getDocument().getName(), 
+					user.getPersonalDocument().getNumber(),
+					user.getPersonalDocument().getDocDate().toString(), 
+					user.getOffice().getId()+"",
+					user.getCitizenship().getName()));
 		}
 
 		return views;
 
 	}
 
+	@Transactional
 	public static UserView mapUser(User user) {
-		UserView view = new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),
-				 user.getPosition(), user.getPhone(), user.getPersonalDocument(), user.getOffice(),
-				user.getCitizenship());
+		UserView view = new UserView(user.getId() + "", 
+				user.getFirstName(), 
+				user.getSecondName(), 
+				user.getMiddleName(),
+				user.getPosition(), 
+				user.getPhone(), 
+				user.getPersonalDocument().getDocument().getName(), 
+				user.getPersonalDocument().getNumber(),
+				user.getPersonalDocument().getDocDate().toString(), 
+				user.getOffice().getId()+"",
+				user.getCitizenship().getName());
 		return view;
 	}
+
 	
 }
