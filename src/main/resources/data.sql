@@ -25,7 +25,8 @@ INSERT INTO Countries (id, version, code, name) VALUES (10,  0, '250', 'Фран
 
 INSERT INTO Organization (id, version, name, full_name, address, inn, kpp, is_active) VALUES (1, 0, 'ЗАО John&CO', 'John&CO','Высокогорная 1', 88098, 789371, true);
 INSERT INTO Organization (id, version, name, full_name, address, is_active) VALUES (2, 0, 'ООО BOSH', 'BOSH','Вавилова 10', true);
-INSERT INTO Organization (id, version, name, full_name, address, phone, is_active) VALUES (3, 0, 'SIEMENS', 'ОАО SIEMENS','Партизанская 21', 7327183, false);
+INSERT INTO Organization (id, version, name, full_name, address, inn, phone, is_active) VALUES (3, 0, 'SIEMENS', 'ОАО SIEMENS','Партизанская 21', '252525', '7327183', false);
+INSERT INTO Organization (id, version, name, full_name, address, phone, is_active) VALUES (4, 0, 'SIEMENS', 'ОАО SIEMENS','Хлебозаводская 43', '7327183', true);
 
 INSERT INTO Office (id, version, name, address, organization_id, is_active) VALUES (1, 0, 'Головной', 'Декабристов 12-2', 1, false);
 INSERT INTO Office (id, version, name, address, organization_id, is_active) VALUES (2, 0, 'Западный', 'Ленина 1/32', 2, true);

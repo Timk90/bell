@@ -67,6 +67,13 @@ public class Organization {
 	public void setOffices(List<Office> offices) {
 		this.offices = offices;
 	}
+	
+	public Organization() {
+	}
+	
+	public Organization(Long id) {
+		this.id = id;
+	}
 
 	// synchronization of the entities
 	public void addOffice(Office office) {
@@ -79,7 +86,7 @@ public class Organization {
 		office.setOrganization(null);
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

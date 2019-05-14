@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Api(value = "UserController")
 @RestController
-@RequestMapping(value = "/", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/user", produces = APPLICATION_JSON_VALUE)
 public class UserController {
 
 	private final UserService userService;
@@ -36,14 +36,14 @@ public class UserController {
 
 	@ApiOperation(value = "Добавить нового сотрудника", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
 	@PostMapping("/users")
 	public void person(@RequestBody User user) {
 		userService.insertUser(user);
 	}
 
 	@ApiOperation(value = "Получить список всех людей", httpMethod = "GET")
-	@GetMapping("/users")
+	@GetMapping("/list")
 	public List<UserView> persons() {
 		List<UserView> users = userService.users();
 		//List<UserView> userViews = mapAllUsers(users);
@@ -54,7 +54,7 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "Получить конкретного человека", httpMethod = "GET")
-	@GetMapping("/users/{id}")
+	@GetMapping("/{id}")
 	public UserView person(@PathVariable Long id) {
 		UserView user = userService.getUserById(id);
 		System.out.println(user.toString());
