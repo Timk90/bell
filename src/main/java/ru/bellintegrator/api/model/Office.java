@@ -25,7 +25,7 @@ public class Office {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
-	private long id;
+	private Long id;
 
 	/**
 	 * Служебное поле hibernate
@@ -65,7 +65,7 @@ public class Office {
 		this.organization = organization;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

@@ -49,7 +49,6 @@ public class OrganizationDaoImpl implements OrganizationDao{
 		}else {
 			em.merge(organization);
 		}
-        	
 	}	
 	
 	private CriteriaQuery<Organization> buildCriteria(String name, String inn, boolean isActive){

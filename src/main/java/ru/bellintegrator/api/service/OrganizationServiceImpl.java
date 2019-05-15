@@ -75,7 +75,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		view.getInn()!= null && 
 		view.getKpp() != null &&
 		view.getAddress() != null) {
-		Organization organization = new Organization(Long.parseLong(view.getId()));
+		Organization organization =	orgDao.loadById(Long.parseLong(view.getId()));
 		organization.setName(view.getName());
 		organization.setFullName(view.getFullName());
 		organization.setInn(view.getInn());
