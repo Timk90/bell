@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.api.daoOffice.OfficeDao;
+import ru.bellintegrator.api.daoOrganization.OrganizationDao;
 import ru.bellintegrator.api.model.Office;
+import ru.bellintegrator.api.model.Organization;
 import ru.bellintegrator.api.views.OfficeView;
 
 @Service
@@ -15,10 +17,12 @@ import ru.bellintegrator.api.views.OfficeView;
 public class OfficeServiceImpl implements OfficeService{
 	
 	private final OfficeDao officeDao;
+	private final OrganizationDao organizationDao;
 	
 	@Autowired
-	public OfficeServiceImpl(OfficeDao officeDao) {
+	public OfficeServiceImpl(OfficeDao officeDao, OrganizationDao organizationDao) {
 		this.officeDao = officeDao;
+		this.organizationDao = organizationDao;
 	}
 
 	@Override
@@ -36,15 +40,31 @@ public class OfficeServiceImpl implements OfficeService{
 	}
 
 	@Override
-	public void insertOffice(OfficeView office) {
+	public void insertOffice(OfficeView officeView) {
 		// TODO Auto-generated method stub
-		
+		if(officeView.getOrgId()!=null) {
+			Organization org = organizationDao.loadById(Long.parseLong(officeView.getOrgId()));
+			Office tmpOffice = new Office();
+			String tmp = new String();
+			tmpOffice.setOrganization(org);
+			tmp = (officeView.getAddress()!=null) ? officeView.getAddress(): ""; 
+			tmpOffice.setAddress(tmp);
+			tmp = (officeView.getName()!=null) ? officeView.getName(): "";
+			tmpOffice.setName(officeView.getName());
+			tmpOffice.setPhone(officeView.getPhone());
+			tmpOffice.setActive(true);
+			
+			officeDao.save(tmpOffice);
+		}
 	}
 
 	@Override
 	public void updateOffice(OfficeView office) {
 		// TODO Auto-generated method stub
-		
+		Office tmpOffice = officeDao.loadById(Long.parseLong(office.getId()));
+		if(tmpOffice.getId()!=null) {
+			mapOffice(tmpOffice);
+		}
 	}
 
 	@Override

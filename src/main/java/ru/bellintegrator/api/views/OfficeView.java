@@ -17,7 +17,7 @@ public class OfficeView {
 	private String id;
 
 	@Size(max = 50)
-	@NotEmpty(message = "name cannot be null")
+	//@NotEmpty(message = "name cannot be null")
 	@ApiModelProperty(value = "Название", example = "Bosh Inc Ltd itd...")
 	private String name;
 	

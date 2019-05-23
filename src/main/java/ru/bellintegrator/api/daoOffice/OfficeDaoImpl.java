@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import ru.bellintegrator.api.model.Office;
 import ru.bellintegrator.api.model.Organization;
+import ru.bellintegrator.api.model.User;
 
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
@@ -58,10 +60,11 @@ public class OfficeDaoImpl implements OfficeDao {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Office> criteria = builder.createQuery(Office.class);
 		Root<Office> org = criteria.from(Office.class);
+		//org.fetch("organization", JoinType.LEFT);
 		
 		List<Predicate> predicates = new ArrayList<>();
 		if(orgId != null) {
-			predicates.add(builder.equal(org.get("orgId"), orgId));
+			predicates.add(builder.equal(org.get("organization").get("id"), orgId));
 		}
 		if(name != null) {
 			predicates.add(builder.equal(org.get("name"), name));

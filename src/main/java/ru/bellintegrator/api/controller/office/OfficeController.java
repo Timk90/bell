@@ -56,4 +56,12 @@ public class OfficeController {
 		return officeService.getOfficeById(id);
 	}
 	
+	@ApiOperation(value = "добавить новый офис по ID организации" , httpMethod="POST" )
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
+	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value="/save")
+	void insertOffice(@RequestBody OfficeView office){
+		officeService.insertOffice(office);
+	}
+	
 }
