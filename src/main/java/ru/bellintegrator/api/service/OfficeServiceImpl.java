@@ -53,7 +53,6 @@ public class OfficeServiceImpl implements OfficeService{
 			tmpOffice.setName(officeView.getName());
 			tmpOffice.setPhone(officeView.getPhone());
 			tmpOffice.setActive(true);
-			
 			officeDao.save(tmpOffice);
 		}
 	}
@@ -62,8 +61,15 @@ public class OfficeServiceImpl implements OfficeService{
 	public void updateOffice(OfficeView office) {
 		// TODO Auto-generated method stub
 		Office tmpOffice = officeDao.loadById(Long.parseLong(office.getId()));
-		if(tmpOffice.getId()!=null) {
-			mapOffice(tmpOffice);
+		if(tmpOffice.getId()!=null && !tmpOffice.getId().equals("") &&
+				office.getId()!=null && !office.getId().equals("") && 
+				office.getName()!=null && !office.getName().equals("") &&
+				office.getAddress()!=null && !office.getAddress().equals("")) {
+			tmpOffice.setName(office.getName());
+			tmpOffice.setAddress(office.getAddress());
+			tmpOffice.setPhone(office.getPhone());
+			tmpOffice.setActive(true);
+			officeDao.save(tmpOffice);
 		}
 	}
 

@@ -64,4 +64,12 @@ public class OfficeController {
 		officeService.insertOffice(office);
 	}
 	
+	@ApiOperation(value = "изменить данные офиса по ID организации" , httpMethod="POST" )
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
+	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value="/update")
+	void updateOffice(@RequestBody OfficeView office){
+		officeService.updateOffice(office);
+	}
+	
 }

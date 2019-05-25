@@ -37,7 +37,7 @@ public class UserController {
 	@ApiOperation(value = "Добавить нового сотрудника", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping("/users")
+	@PostMapping("/api/users")
 	public void person(@RequestBody User user) {
 		userService.insertUser(user);
 	}
@@ -57,6 +57,7 @@ public class UserController {
 	@GetMapping("/{id}")
 	public UserView person(@PathVariable Long id) {
 		UserView user = userService.getUserById(id);
+		
 		System.out.println(user.toString());
 		return user;
 	}
