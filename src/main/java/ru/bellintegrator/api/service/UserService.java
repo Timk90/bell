@@ -23,6 +23,6 @@ public interface UserService {
 	/*
 	 * добавляет нового пользователя
 	 */
-	void insertUser(User user);
+	void insertUser(UserView user);
 	
 }

@@ -22,7 +22,7 @@ public class PersonalDoc {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
-	private long id;
+	private Long id;
 
 	/**
 	 * Служебное поле hibernate
@@ -42,7 +42,7 @@ public class PersonalDoc {
 	private Doc document;
 
 	// getters ad setters
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

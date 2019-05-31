@@ -9,6 +9,10 @@ public interface DocDao {
 	public List<Doc> all();
 
 	public Doc loadById(Long id);
+	
+	public List<Doc> loadByName(String name);
+	
+	public List<Doc> loadByCode(String code);
 
 	public void save(Doc doc);
 

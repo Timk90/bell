@@ -10,5 +10,7 @@ public interface CountryDao {
 
     public Country loadById(Long id);
     
+    public List<Country> loadByCode(String code);
+    
     public void save(Country office);
 }

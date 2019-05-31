@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Countries (
     name             VARCHAR(50)  NOT NULL COMMENT 'Название страны / Гражданство'
 );
 
-COMMENT ON TABLE Docs IS 'Справочник стран. Коды стран: https://geo.koltyrin.ru/kody_stran_mira.php';
+COMMENT ON TABLE Countries IS 'Справочник стран. Коды стран: https://geo.koltyrin.ru/kody_stran_mira.php';
 
 
 CREATE TABLE IF NOT EXISTS Organization (
@@ -63,9 +63,9 @@ CREATE TABLE IF NOT EXISTS User (
     middle_name      VARCHAR(50)           COMMENT 'Отчество',
     position         VARCHAR(50)  NOT NULL COMMENT 'Должность',
     phone            VARCHAR(50)           COMMENT 'Номер телефона',
-    personal_doc_id  INTEGER      NOT NULL COMMENT 'Внешний ключ на документ пользователя',
-    citizenship_id   INTEGER      NOT NULL COMMENT 'Внешний ключ на информацию о гражданстве',
-    office_id        INTEGER      NOT NULL COMMENT 'Внешний ключ на офис',
+    personal_doc_id  INTEGER               COMMENT 'Внешний ключ на документ пользователя',
+    citizenship_id   INTEGER               COMMENT 'Внешний ключ на информацию о гражданстве',
+    office_id        INTEGER               COMMENT 'Внешний ключ на офис',
     is_identified    BOOLEAN               COMMENT 'Идентифицирован?',
     FOREIGN KEY (office_id)          REFERENCES Office(id),
     FOREIGN KEY (personal_doc_id)    REFERENCES User_document(id),

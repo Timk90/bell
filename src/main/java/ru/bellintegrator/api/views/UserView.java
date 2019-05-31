@@ -38,15 +38,15 @@ public class UserView {
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
 
-	private String officeID;
+	private String officeId;
 
-	private String citizenship;
+	private String citizenshipCode;
 	
-	private String personalDocumentName;
+	private String docName;
 	
-	private String personalDocumentNumber;
+	private String docNumber;
 	
-	private String personalDocumentDate;
+	private String docDate;
 
 	private boolean isIdentified;
 	
@@ -95,20 +95,20 @@ public class UserView {
 		this.phone = phone;
 	}
 
-	public String getOfficeID() {
-		return officeID;
+	public String getOfficeId() {
+		return officeId;
 	}
 
-	public void setOfficeID(String officeID) {
-		this.officeID = officeID;
+	public void setOfficeId(String officeId) {
+		this.officeId = officeId;
 	}
 
-	public String getCitizenship() {
-		return citizenship;
+	public String getCitizenshipCode() {
+		return citizenshipCode;
 	}
 
-	public void setCitizenship(String citizenship) {
-		this.citizenship = citizenship;
+	public void setCitizenshipCode(String citizenshipCode) {
+		this.citizenshipCode = citizenshipCode;
 	}
 
 	public boolean isIdentified() {
@@ -119,28 +119,28 @@ public class UserView {
 		this.isIdentified = isIdentified;
 	}
 
-	public String getPersonalDocumentName() {
-		return personalDocumentName;
+	public String getDocName() {
+		return docName;
 	}
 
-	public void setPersonalDocumentName(String personalDocumentName) {
-		this.personalDocumentName = personalDocumentName;
+	public void setDocName(String docName) {
+		this.docName = docName;
 	}
 
-	public String getPersonalDocumentNumber() {
-		return personalDocumentNumber;
+	public String getDocNumber() {
+		return docNumber;
 	}
 
-	public void setPersonalDocumentNumber(String personalDocumentNumber) {
-		this.personalDocumentNumber = personalDocumentNumber;
+	public void setDocNumber(String docNumber) {
+		this.docNumber = docNumber;
 	}
 
-	public String getPersonalDocumentDate() {
-		return personalDocumentDate;
+	public String getDocDate() {
+		return docDate;
 	}
 
-	public void setPersonalDocumentDate(String personalDocumentDate) {
-		this.personalDocumentDate = personalDocumentDate;
+	public void setDocDate(String docDate) {
+		this.docDate = docDate;
 	}
 
 	public UserView() {
@@ -164,19 +164,19 @@ public class UserView {
 		this.middleName = (middleName!=null) ? middleName: "";
 		this.position = (phone!=null) ? position: "";
 		this.phone = (phone!=null) ? phone: "";
-		this.personalDocumentName = (personalDocumentName!=null) ? personalDocumentName : "";
-		this.personalDocumentNumber = (personalDocumentNumber!=null) ? personalDocumentNumber : "";
-		this.personalDocumentDate = (personalDocumentDate!=null) ? personalDocumentDate : "";
-		this.officeID = (officeID!=null) ? officeID: "";
-		this.citizenship = (citizenship!=null) ?citizenship: "";
+		this.docName = (personalDocumentName!=null) ? personalDocumentName : "";
+		this.docNumber = (personalDocumentNumber!=null) ? personalDocumentNumber : "";
+		this.docDate = (personalDocumentDate!=null) ? personalDocumentDate : "";
+		this.officeId = (officeId!=null) ? officeID: "";
+		this.citizenshipCode = (citizenship!=null) ?citizenship: "";
 	}
 
 	@Override
 	public String toString() {
-		return "{id:" + id + "officeId:" + officeID + ";firstname:" + firstName + ";secondName:" + secondName
+		return "{id:" + id + "officeId:" + officeId + ";firstname:" + firstName + ";secondName:" + secondName
 				+ ";middleName:" + middleName + ";position:" + position + ";phone:" + phone + ";docName:"
-				+ personalDocumentName + ";docNumber:" + personalDocumentNumber + ";docDate:"
-				+ personalDocumentDate + ";citizenship:" + citizenship + ";isidentified:"
+				+ docName + ";docNumber:" + docNumber + ";docDate:"
+				+ docDate + ";citizenship:" + citizenshipCode + ";isidentified:"
 				+ isIdentified + "}";
 	}
 

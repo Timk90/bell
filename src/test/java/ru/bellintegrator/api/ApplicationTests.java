@@ -116,13 +116,32 @@ public class ApplicationTests {
 		List<Country> countries = countryDao.all();
 		System.out.println("-----------------Countries----------------------");
 		for (Country c : countries) {
-			System.out.println("id:" + c.getId() + ", Name:" + c.getName());
+			System.out.println("id:" + c.getId() + ", Name:" + c.getName()+" Code: "+c.getCode());
 		}
 		System.out.println("------------------------------------------------");
+		List<Country> countries1 = countryDao.loadByCode("410");
+		for (Country c : countries1) {
+			System.out.println("id:" + c.getId() + ", Name:" + c.getName()+" Code: "+c.getCode());
+		}
+		System.out.println("------------------------------------------------");
+		List<Country> countries2 = countryDao.loadByCode(null);
+		for (Country c : countries2) {
+			System.out.println("id:" + c.getId() + ", Name:" + c.getName()+" Code: "+c.getCode());
+		}
+
 		System.out.println("-----------------Documents----------------------");
 		for (Doc d : docs) {
 			System.out.println("id:" + d.getId() + ", Name:" + d.getName() + ", code:" + d.getCode());
 		}
 		System.out.println("------------------------------------------------");
+		
+		List<Doc> docs1 = docDao.loadByCode("91");
+		for(Doc d: docs1) {
+			System.out.println("id:" + d.getId() + ", Name:" + d.getName() + ", code:" + d.getCode());
+		}
+		List<Doc> docs2 = docDao.loadByName("Военный билет");
+		for(Doc d: docs2) {
+			System.out.println("id:" + d.getId() + ", Name:" + d.getName() + ", code:" + d.getCode());
+		}
 	}
 }
