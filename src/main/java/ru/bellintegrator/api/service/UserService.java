@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
 import ru.bellintegrator.api.model.User;
+import ru.bellintegrator.api.views.SuccessView;
 import ru.bellintegrator.api.views.UserView;
 
 @Validated
@@ -23,6 +24,6 @@ public interface UserService {
 	/*
 	 * добавляет нового пользователя
 	 */
-	void insertUser(UserView user);
+	SuccessView insertUser(UserView user);
 	
 }

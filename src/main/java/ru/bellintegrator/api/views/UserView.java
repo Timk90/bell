@@ -3,6 +3,8 @@ package ru.bellintegrator.api.views;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import ru.bellintegrator.api.model.Country;
@@ -10,6 +12,7 @@ import ru.bellintegrator.api.model.Office;
 import ru.bellintegrator.api.model.PersonalDoc;
 
 @ApiModel(description = "Сотрудник")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserView {
 
 	@NotEmpty
@@ -156,7 +159,7 @@ public class UserView {
 			String personalDocumentName, 
 			String personalDocumentNumber, 
 			String personalDocumentDate, 
-			String officeID, 
+			String officeId, 
 			String citizenship) {
 		this.id = (id!=null) ? id: "no ID";
 		this.firstName = (firstName!=null) ? firstName: "";
@@ -167,13 +170,13 @@ public class UserView {
 		this.docName = (personalDocumentName!=null) ? personalDocumentName : "";
 		this.docNumber = (personalDocumentNumber!=null) ? personalDocumentNumber : "";
 		this.docDate = (personalDocumentDate!=null) ? personalDocumentDate : "";
-		this.officeId = (officeId!=null) ? officeID: "";
-		this.citizenshipCode = (citizenship!=null) ?citizenship: "";
+		this.officeId = (officeId!=null) ? officeId: "";
+		this.citizenshipCode = (citizenship!=null) ? citizenship : "";
 	}
 
 	@Override
 	public String toString() {
-		return "{id:" + id + "officeId:" + officeId + ";firstname:" + firstName + ";secondName:" + secondName
+		return "{id:" + id + ";officeId:" + officeId + ";firstname:" + firstName + ";secondName:" + secondName
 				+ ";middleName:" + middleName + ";position:" + position + ";phone:" + phone + ";docName:"
 				+ docName + ";docNumber:" + docNumber + ";docDate:"
 				+ docDate + ";citizenship:" + citizenshipCode + ";isidentified:"

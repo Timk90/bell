@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import ru.bellintegrator.api.model.User;
 import ru.bellintegrator.api.service.UserService;
+import ru.bellintegrator.api.views.SuccessView;
 import ru.bellintegrator.api.views.UserView;
 
 //what is a static import? 
@@ -38,8 +39,8 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
 	@PostMapping("/save")
-	public void person(@RequestBody UserView user) {
-		userService.insertUser(user);
+	public SuccessView person(@RequestBody UserView user) {
+		return userService.insertUser(user);
 	}
 
 	@ApiOperation(value = "Получить список всех людей", httpMethod = "GET")
