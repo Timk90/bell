@@ -15,7 +15,12 @@ import ru.bellintegrator.api.daoDoc.DocDao;
 import ru.bellintegrator.api.daoOffice.OfficeDao;
 import ru.bellintegrator.api.daoPersonalDoc.PersonalDocDao;
 import ru.bellintegrator.api.daoUser.UserDao;
+import ru.bellintegrator.api.exceptions.IncorrectDateFormatException;
+import ru.bellintegrator.api.exceptions.IncorretadUserUpdateDataException;
+import ru.bellintegrator.api.exceptions.NoSuchCountryException;
+import ru.bellintegrator.api.exceptions.NoSuchDocumentException;
 import ru.bellintegrator.api.exceptions.NoSuchOfficeException;
+import ru.bellintegrator.api.exceptions.NoSuchUSerException;
 import ru.bellintegrator.api.exceptions.UserDetailsInsertException;
 import ru.bellintegrator.api.model.Country;
 import ru.bellintegrator.api.model.Doc;
@@ -115,6 +120,69 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
+	@Override
+	@Transactional
+	public SuccessView updateUser(UserView view) {
+		if(view.getId()!=null && view.getFirstName()!=null && view.getPosition()!=null) {
+			User user = userDao.loadById(Long.parseLong(view.getId()));
+			if(user==null) {
+				throw new NoSuchUSerException();
+			}
+			user.setFirstName(view.getFirstName());
+			user.setMiddleName(view.getMiddleName());
+			user.setSecondName(view.getSecondName());
+			if(view.getOfficeId()!=null && !view.getOfficeId().equals("")) {
+				Office office = officeDao.loadById(Long.parseLong(view.getOfficeId()));
+				if(office == null) {
+					throw new NoSuchOfficeException();
+				}
+			user.setOffice(office);
+			}else {
+				user.setOffice(null);
+			}
+			
+			user.setPosition(view.getPosition());
+			user.setPhone(view.getPhone());
+			
+			PersonalDoc persDoc = personalDocDao.loadById(user.getPersonalDocument().getId());
+			Doc doc = documentDao.loadById(persDoc.getDocument().getId());
+			String newDocName = (view.getDocName()!=null && !view.getDocName().equals("")) ? view.getDocName() : "";
+			String newDocNumber = (view.getDocNumber()!=null && !view.getDocNumber().equals("")) ? view.getDocNumber() : "";
+			String newDocDate = (view.getDocDate()!=null && !view.getDocDate().equals("")) ? view.getDocDate() : "";
+			
+			persDoc.setNumber(newDocNumber);
+			try {
+				persDoc.setDocDate(new SimpleDateFormat("dd-MM-yyyy").parse(newDocDate));
+			} catch (ParseException e) {
+				throw new IncorrectDateFormatException();
+			}
+			
+			if(view.getDocName()!=null && !view.getDocName().equals("")) {
+				List<Doc> newDocs = documentDao.loadByName(newDocName);
+				if(newDocs.size()>0) {
+					Doc newDoc = newDocs.get(0);
+					doc.setCode(newDoc.getCode());
+					doc.setName(newDoc.getName());	
+				}else {
+					throw new NoSuchDocumentException();
+				}		
+			}
+			
+			if(view.getCitizenshipCode()!=null && !view.getCitizenshipCode().equals("")) {
+				List<Country> countries = countryDao.loadByCode(view.getCitizenshipCode());
+				if(countries.size()>0) {
+					Country country = countries.get(0);
+					user.setCitizenship(country);
+				}else {
+					throw new NoSuchCountryException();
+				}
+			}
+			
+		}else {
+			throw new IncorretadUserUpdateDataException();
+		}
+		return new SuccessView("success");
+	}
 
 	@Transactional
 	public static List<UserView> mapAllUsers(List<User> users) {

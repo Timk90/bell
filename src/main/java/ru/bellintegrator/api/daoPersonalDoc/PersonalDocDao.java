@@ -9,6 +9,8 @@ public interface PersonalDocDao {
 	public List<PersonalDoc> all();
 
 	public PersonalDoc loadById(Long id);
+	
+	public PersonalDoc loadByName(String name);
 
 	public void save(PersonalDoc personalDoc);
 	

@@ -30,6 +30,11 @@ public class PerosnalDocDaoImpl implements PersonalDocDao {
 	public PersonalDoc loadById(Long id) {
 		return em.find(PersonalDoc.class, id);
 	}
+	
+	@Override
+	public PersonalDoc loadByName(String name) {
+		return null;
+	}
 
 	@Override
 	public void save(PersonalDoc personalDoc) {

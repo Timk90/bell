@@ -26,4 +26,5 @@ public interface UserService {
 	 */
 	SuccessView insertUser(UserView user);
 	
+	SuccessView updateUser(UserView user);
 }
