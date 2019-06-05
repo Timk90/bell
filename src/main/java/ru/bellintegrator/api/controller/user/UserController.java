@@ -39,8 +39,16 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
 	@PostMapping("/save")
-	public SuccessView person(@RequestBody UserView user) {
+	public SuccessView insertPerson(@RequestBody UserView user) {
 		return userService.insertUser(user);
+	}
+	
+	@ApiOperation(value = "Измеинить запись сотрудника", httpMethod = "POST")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
+	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping("/update")
+	public SuccessView updatePerson(@RequestBody UserView user) {
+		return userService.updateUser(user);
 	}
 
 	@ApiOperation(value = "Получить список всех людей", httpMethod = "GET")
