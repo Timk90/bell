@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 import ru.bellintegrator.api.model.Organization;
 import ru.bellintegrator.api.views.OrganizationView;
+import ru.bellintegrator.api.views.SuccessView;
 
 //why should we put here @Validated
 @Validated
@@ -24,12 +25,12 @@ public interface OrganizationService {
 	/*
 	 * добавляет новую организацию
 	 */
-	void insertOrganization(OrganizationView org);
+	SuccessView insertOrganization(OrganizationView org);
 	
 	/*
 	 * изменяет данные организации
 	 */
-	void updateOrganization(OrganizationView org);
+	SuccessView updateOrganization(OrganizationView org);
 	
 	/*
 	 * возвращает список организаций по имени

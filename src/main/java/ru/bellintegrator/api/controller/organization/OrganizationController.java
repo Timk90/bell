@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import ru.bellintegrator.api.service.OrganizationService;
 import ru.bellintegrator.api.views.OrganizationView;
+import ru.bellintegrator.api.views.SuccessView;
 
 //what is a static import? 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -47,7 +48,6 @@ public class OrganizationController {
 	@PostMapping(value="/list")
 	public List<OrganizationView> organizationsByName(@RequestBody OrganizationView view) {
 		 List<OrganizationView> views  = organizationService.listOrgByName(view);
-		 System.out.println(views);
 		 return views;
 	}
 	
@@ -63,18 +63,16 @@ public class OrganizationController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
 	@PostMapping(value="/save")
-	public void insertNewOrganization(@RequestBody OrganizationView view) {
-		 System.out.println(view);
-		 organizationService.insertOrganization(view);
+	public SuccessView insertNewOrganization(@RequestBody OrganizationView view) {
+		 return organizationService.insertOrganization(view);
 	}
 	
 	@ApiOperation(value = "Изменить данные организации", httpMethod="POST" )
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
 	@PostMapping(value="/update")
-	public void updateOrganization(@RequestBody OrganizationView view) {
-		 System.out.println(view);
-		 organizationService.updateOrganization(view);
+	public SuccessView updateOrganization(@RequestBody OrganizationView view) {
+		 return organizationService.updateOrganization(view);
 	}
 	
 }

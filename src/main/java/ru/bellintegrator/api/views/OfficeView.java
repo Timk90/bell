@@ -41,7 +41,6 @@ public class OfficeView {
 	public OfficeView(@NotEmpty String id, @Size(max = 50) @NotEmpty(message = "name cannot be null") String name,
 			@Size(max = 50) String address, @Size(max = 50) String phone, @Size(max = 50) String orgId,
 			boolean isActive) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;

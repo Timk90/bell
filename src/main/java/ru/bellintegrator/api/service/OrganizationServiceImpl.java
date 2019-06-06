@@ -8,24 +8,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.bellintegrator.api.daoOrganization.OrganizationDao;
+import ru.bellintegrator.api.exceptions.IncorrectIdFormatException;
+import ru.bellintegrator.api.exceptions.IncorrectInsertOrganizationDataException;
+import ru.bellintegrator.api.exceptions.IncorrectUpdateOrganizationDataException;
+import ru.bellintegrator.api.exceptions.NoSuchOrganizationException;
 import ru.bellintegrator.api.model.Organization;
 import ru.bellintegrator.api.views.OrganizationView;
+import ru.bellintegrator.api.views.SuccessView;
 
 @Service
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
 
 	private final OrganizationDao orgDao;
-	
+
 	@Autowired
 	public OrganizationServiceImpl(OrganizationDao orgDao) {
 		this.orgDao = orgDao;
 	}
-	
+
 	@Override
 	public List<OrganizationView> listOrgByName(OrganizationView view) {
-		
-		if(view.getName().length()!=0 || !view.getName().equals(null)) {
+
+		if (view.getName().length() != 0 || !view.getName().equals(null)) {
 			List<Organization> orgs = orgDao.loadByName(view.getName(), view.getInn(), view.getIsActive());
 			return mapAllOrganizations(orgs);
 		}
@@ -34,83 +39,82 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public List<OrganizationView> organizations() {
-		// TODO Auto-generated method stub
 		return mapAllOrganizations(orgDao.all());
 	}
 
 	@Override
 	public OrganizationView getOrgById(Long id) {
-		// TODO Auto-generated method stub
 		return mapOrganization(orgDao.loadById(id));
 	}
 
 	@Override
-	public void insertOrganization(OrganizationView view) {
-		// TODO Auto-generated method stub
-		if(view.getName()!=null &&
-		view.getFullName()!=null &&
-		view.getInn()!= null && 
-		view.getKpp() != null &&
-		view.getAddress() != null) {
-		Organization organization = new Organization();
-		organization.setName(view.getName());
-		organization.setFullName(view.getFullName());
-		organization.setInn(view.getInn());
-		organization.setKpp(view.getKpp());
-		organization.setAddress(view.getAddress());
-		organization.setPhone(view.getPhone());
-		organization.setActive(true);
+	public SuccessView insertOrganization(OrganizationView view) {
+		if (view.getName() != null && view.getFullName() != null && view.getInn() != null && view.getKpp() != null
+				&& view.getAddress() != null) {
+			Organization organization = new Organization();
+			organization.setName(view.getName());
+			organization.setFullName(view.getFullName());
+			organization.setInn(view.getInn());
+			organization.setKpp(view.getKpp());
+			organization.setAddress(view.getAddress());
+			organization.setPhone(view.getPhone());
+			organization.setActive(true);
 			orgDao.save(organization);
+		} else {
+			throw new IncorrectInsertOrganizationDataException();
 		}
+		return new SuccessView("Success!");
 	}
-	
-	
-	
+
 	@Override
-	public void updateOrganization(OrganizationView view) {
-		// TODO Auto-generated method stub
-		if(view.getId()!=null &&
-		view.getName()!=null &&
-		view.getFullName()!=null &&
-		view.getInn()!= null && 
-		view.getKpp() != null &&
-		view.getAddress() != null) {
-		Organization organization =	orgDao.loadById(Long.parseLong(view.getId()));
-		organization.setName(view.getName());
-		organization.setFullName(view.getFullName());
-		organization.setInn(view.getInn());
-		organization.setKpp(view.getKpp());
-		organization.setAddress(view.getAddress());
-		organization.setPhone(view.getPhone());
-		organization.setActive(true);
-			orgDao.save(organization);
+	public SuccessView updateOrganization(OrganizationView view) {
+		if (view.getId() != null) {
+			try {
+				Long.parseLong(view.getId());
+			} catch (NumberFormatException ex) {
+				throw new IncorrectIdFormatException();
+			}
+		}else {
+			throw new IncorrectUpdateOrganizationDataException();
 		}
+		if (view.getName() != null && view.getFullName() != null && view.getInn() != null && view.getKpp() != null
+				&& view.getAddress() != null) {
+			Organization organization = orgDao.loadById(Long.parseLong(view.getId()));
+			if(organization != null) {
+				organization.setName(view.getName());
+				organization.setFullName(view.getFullName());
+				organization.setInn(view.getInn());
+				organization.setKpp(view.getKpp());
+				organization.setAddress(view.getAddress());
+				organization.setPhone(view.getPhone());
+				organization.setActive(true);
+				orgDao.save(organization);
+			}else {
+				throw new NoSuchOrganizationException();
+			}
+
+		}else {
+			throw new IncorrectUpdateOrganizationDataException();
+		}
+		return new SuccessView("Success!");
 	}
 
 	private OrganizationView mapOrganization(Organization org) {
 		OrganizationView view = new OrganizationView();
-		view.setId(org.getId()+"");
+		view.setId(org.getId() + "");
 		view.setName(org.getName());
 		view.setFullName(org.getFullName());
 		view.setInn(org.getInn());
 		view.setKpp(org.getKpp());
 		view.setAddress(org.getAddress());
 		view.setIsActive(org.isActive());
-		
 		return view;
 	}
-	
+
 	private List<OrganizationView> mapAllOrganizations(List<Organization> orgs) {
 		List<OrganizationView> views = new ArrayList<>();
-		for(Organization org: orgs) {
-			OrganizationView view = new OrganizationView();
-			view.setId(org.getId()+"");
-			view.setName(org.getName());
-			//view.setFullName(org.getFullName());
-			//view.setInn(org.getInn());
-			//view.setKpp(org.getKpp());
-			//view.setAddress(org.getAddress());
-			view.setIsActive(org.isActive());
+		for (Organization org : orgs) {
+			OrganizationView view = mapOrganization(org);
 			views.add(view);
 		}
 		return views;

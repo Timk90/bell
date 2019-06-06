@@ -3,6 +3,7 @@ package ru.bellintegrator.api.service;
 import java.util.List;
 
 import ru.bellintegrator.api.views.OfficeView;
+import ru.bellintegrator.api.views.SuccessView;
 
 public interface OfficeService {
 	
@@ -19,12 +20,12 @@ public interface OfficeService {
 	/*
 	 * добавляет новый офис 
 	 */
-	void insertOffice(OfficeView office);
+	SuccessView insertOffice(OfficeView office);
 	
 	/*
 	 * изменяет данные офиса
 	 */
-	void updateOffice(OfficeView office);
+	SuccessView updateOffice(OfficeView office);
 	
 	/*
 	 * возвращает список офисов по ID организации

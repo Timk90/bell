@@ -18,58 +18,58 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import ru.bellintegrator.api.service.OfficeService;
 import ru.bellintegrator.api.views.OfficeView;
-import ru.bellintegrator.api.views.OrganizationView;
+import ru.bellintegrator.api.views.SuccessView;
 
 @Api("OfficeController")
 @RestController
-@RequestMapping(value="api/office", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/office", produces = APPLICATION_JSON_VALUE)
 public class OfficeController {
-	
+
 	private final OfficeService officeService;
-	
+
 	@Autowired
 	public OfficeController(OfficeService officeService) {
 		this.officeService = officeService;
 	}
 
-	@ApiOperation(value = "получить список офисов", httpMethod="GET" )
+	@ApiOperation(value = "получить список офисов", httpMethod = "GET")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@GetMapping(value="/list")
-	List<OfficeView> offices(){
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@GetMapping(value = "/list")
+	List<OfficeView> offices() {
 		return officeService.offices();
 	}
-	
-	@ApiOperation(value = "получить список офисов", httpMethod="POST" )
+
+	@ApiOperation(value = "получить список офисов", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping(value="/list")
-	List<OfficeView> officesList(@RequestBody OfficeView view){
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value = "/list")
+	List<OfficeView> officesList(@RequestBody OfficeView view) {
 		return officeService.listOfficesByOrgId(view);
 	}
-	
-	@ApiOperation(value = "получить офис по ID", httpMethod="GET" )
+
+	@ApiOperation(value = "получить офис по ID", httpMethod = "GET")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@GetMapping(value="/{id}")
-	OfficeView getOffice(@PathVariable Long id){
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@GetMapping(value = "/{id}")
+	OfficeView getOffice(@PathVariable Long id) {
 		return officeService.getOfficeById(id);
 	}
-	
-	@ApiOperation(value = "добавить новый офис по ID организации" , httpMethod="POST" )
+
+	@ApiOperation(value = "добавить новый офис по ID организации", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping(value="/save")
-	void insertOffice(@RequestBody OfficeView office){
-		officeService.insertOffice(office);
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value = "/save")
+	SuccessView insertOffice(@RequestBody OfficeView office) {
+		return officeService.insertOffice(office);
 	}
-	
-	@ApiOperation(value = "изменить данные офиса по ID организации" , httpMethod="POST" )
+
+	@ApiOperation(value = "изменить данные офиса по ID организации", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping(value="/update")
-	void updateOffice(@RequestBody OfficeView office){
-		officeService.updateOffice(office);
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value = "/update")
+	SuccessView updateOffice(@RequestBody OfficeView office) {
+		return officeService.updateOffice(office);
 	}
-	
+
 }

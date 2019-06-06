@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.bellintegrator.api.daoCountry.CountryDao;
 import ru.bellintegrator.api.daoDoc.DocDao;
@@ -16,12 +15,12 @@ import ru.bellintegrator.api.daoOffice.OfficeDao;
 import ru.bellintegrator.api.daoPersonalDoc.PersonalDocDao;
 import ru.bellintegrator.api.daoUser.UserDao;
 import ru.bellintegrator.api.exceptions.IncorrectDateFormatException;
+import ru.bellintegrator.api.exceptions.IncorrectUserDetailsException;
 import ru.bellintegrator.api.exceptions.IncorretUserUpdateDataException;
 import ru.bellintegrator.api.exceptions.NoSuchCountryException;
 import ru.bellintegrator.api.exceptions.NoSuchDocumentException;
 import ru.bellintegrator.api.exceptions.NoSuchOfficeException;
 import ru.bellintegrator.api.exceptions.NoSuchUserException;
-import ru.bellintegrator.api.exceptions.IncorrectUserDetailsException;
 import ru.bellintegrator.api.model.Country;
 import ru.bellintegrator.api.model.Doc;
 import ru.bellintegrator.api.model.Office;
@@ -144,7 +143,7 @@ public class UserServiceImpl implements UserService {
 			if (user == null) {
 				throw new NoSuchUserException();
 			}
-			
+
 			user.setFirstName(view.getFirstName());
 			user.setPosition(view.getPosition());
 
@@ -165,7 +164,7 @@ public class UserServiceImpl implements UserService {
 					throw new NoSuchOfficeException();
 				}
 				user.setOffice(office);
-			} 
+			}
 
 			if (view.getDocName() != null && !view.getDocName().equals("")) {
 				List<Doc> docs = documentDao.loadByName(view.getDocName());

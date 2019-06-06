@@ -6,19 +6,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.bellintegrator.api.daoOffice.OfficeDao;
 import ru.bellintegrator.api.daoOrganization.OrganizationDao;
+import ru.bellintegrator.api.exceptions.IncorrectIdFormatException;
+import ru.bellintegrator.api.exceptions.IncorrectOfficeInsertDataException;
+import ru.bellintegrator.api.exceptions.IncorrectOfficeUpdateDataException;
+import ru.bellintegrator.api.exceptions.NoSuchOfficeException;
 import ru.bellintegrator.api.model.Office;
 import ru.bellintegrator.api.model.Organization;
 import ru.bellintegrator.api.views.OfficeView;
+import ru.bellintegrator.api.views.SuccessView;
 
 @Service
 @Transactional
-public class OfficeServiceImpl implements OfficeService{
-	
+public class OfficeServiceImpl implements OfficeService {
+
 	private final OfficeDao officeDao;
 	private final OrganizationDao organizationDao;
-	
+
 	@Autowired
 	public OfficeServiceImpl(OfficeDao officeDao, OrganizationDao organizationDao) {
 		this.officeDao = officeDao;
@@ -28,10 +34,9 @@ public class OfficeServiceImpl implements OfficeService{
 	@Override
 	public List<OfficeView> offices() {
 		// TODO Auto-generated method stub
-		List<Office> offices = officeDao.all();		
+		List<Office> offices = officeDao.all();
 		return mapAllOffices(offices);
 	}
-
 
 	@Override
 	public OfficeView getOfficeById(Long id) {
@@ -40,92 +45,104 @@ public class OfficeServiceImpl implements OfficeService{
 	}
 
 	@Override
-	public void insertOffice(OfficeView officeView) {
-		// TODO Auto-generated method stub
-		if(officeView.getOrgId()!=null) {
+	public SuccessView insertOffice(OfficeView officeView) {
+		if (officeView.getOrgId() != null && !officeView.getOrgId().equals("")) {
+			try {
+				Long.parseLong(officeView.getOrgId());
+			} catch (NumberFormatException e) {
+				throw new IncorrectIdFormatException();
+			}
 			Organization org = organizationDao.loadById(Long.parseLong(officeView.getOrgId()));
-			Office tmpOffice = new Office();
-			String tmp = new String();
-			tmpOffice.setOrganization(org);
-			tmp = (officeView.getAddress()!=null) ? officeView.getAddress(): ""; 
-			tmpOffice.setAddress(tmp);
-			tmp = (officeView.getName()!=null) ? officeView.getName(): "";
-			tmpOffice.setName(officeView.getName());
-			tmpOffice.setPhone(officeView.getPhone());
-			tmpOffice.setActive(true);
-			officeDao.save(tmpOffice);
+			Office office = new Office();
+
+			office.setOrganization(org);
+			if (officeView.getAddress() != null) {
+				office.setAddress(officeView.getAddress());
+			} else {
+				office.setAddress("");
+			}
+			if (officeView.getName() != null) {
+				office.setName(officeView.getName());
+			} else {
+				office.setName("");
+			}
+			if (officeView.getPhone() != null) {
+				office.setPhone(officeView.getPhone());
+			} else {
+				office.setPhone("");
+			}
+			office.setActive(true);
+			officeDao.save(office);
+		} else {
+			throw new IncorrectOfficeInsertDataException();
 		}
+		return new SuccessView("Success");
 	}
 
 	@Override
-	public void updateOffice(OfficeView office) {
-		// TODO Auto-generated method stub
-		Office tmpOffice = officeDao.loadById(Long.parseLong(office.getId()));
-		if(tmpOffice.getId()!=null && !tmpOffice.getId().equals("") &&
-				office.getId()!=null && !office.getId().equals("") && 
-				office.getName()!=null && !office.getName().equals("") &&
-				office.getAddress()!=null && !office.getAddress().equals("")) {
-			tmpOffice.setName(office.getName());
-			tmpOffice.setAddress(office.getAddress());
-			tmpOffice.setPhone(office.getPhone());
-			tmpOffice.setActive(true);
-			officeDao.save(tmpOffice);
+	public SuccessView updateOffice(OfficeView officeView) {
+		if (officeView.getId() != null) {
+			try {
+				Long.parseLong(officeView.getId());
+			} catch (NumberFormatException e) {
+				throw new IncorrectIdFormatException();
+			}
 		}
+		Office office = officeDao.loadById(Long.parseLong(officeView.getId()));
+		if (office != null) {
+			if (officeView.getName() != null && officeView.getAddress() != null) {
+				if (officeView.getAddress() != null) {
+					office.setAddress(officeView.getAddress());
+				}
+				if (officeView.getName() != null) {
+					office.setName(officeView.getName());
+				}
+				if (officeView.getPhone() != null) {
+					office.setPhone(officeView.getPhone());
+				}
+				office.setActive(officeView.isActive());
+				officeDao.save(office);
+			} else {
+				throw new IncorrectOfficeUpdateDataException();
+			}
+		} else {
+			throw new NoSuchOfficeException();
+		}
+		return new SuccessView("Success");
 	}
 
 	@Override
 	public List<OfficeView> listOfficesByOrgId(OfficeView view) {
-		// TODO Auto-generated method stub
-		
-		if(view.getOrgId() != null) {
-			List<Office> offices = officeDao.loadByOrgId(Long.parseLong(view.getOrgId()), view.getName(), view.getPhone(), view.isActive());
-			return mapAllOfficesShort(offices);
-		}else {
+		if (view.getOrgId() != null) {
+			List<Office> offices = officeDao.loadByOrgId(Long.parseLong(view.getOrgId()), view.getName(),
+					view.getPhone(), view.isActive());
+			return mapAllOffices(offices);
+		} else {
 			return null;
 		}
-		
+
 	}
-	
-	private static OfficeView mapOffice(Office office){
+
+	private static OfficeView mapOffice(Office office) {
 		OfficeView view = new OfficeView();
-		view.setId(office.getId()+"");
+		view.setId(office.getId() + "");
 		view.setName(office.getName());
 		view.setAddress(office.getAddress());
 		view.setPhone(office.getPhone());
-		view.setOrgId(office.getOrganization().getId()+"");
+		view.setOrgId(office.getOrganization().getId() + "");
+		view.setActive(office.isActive());
 		return view;
-		
+
 	}
-	
-	private static List<OfficeView> mapAllOffices(List<Office> offices){
+
+	private static List<OfficeView> mapAllOffices(List<Office> offices) {
 		List<OfficeView> views = new ArrayList<>();
-		for(Office office: offices) {
-			OfficeView view = new OfficeView();
-			view.setId(office.getId()+"");
-			view.setName(office.getName());
-			view.setAddress(office.getAddress());
-			view.setPhone(office.getPhone());
-			view.setOrgId(office.getOrganization().getId()+"");
-			views.add(view);
+		for (Office office : offices) {
+			OfficeView officeView = mapOffice(office);
+			views.add(officeView);
 		}
 		return views;
-		
-	}
-	
-	private static List<OfficeView> mapAllOfficesShort(List<Office> offices){
-		List<OfficeView> views = new ArrayList<>();
-		for(Office office: offices) {
-			OfficeView view = new OfficeView();
-			view.setId(office.getId()+"");
-			view.setOrgId(office.getOrganization().getId()+"");
-			view.setName(office.getName());
-			view.setActive(office.isActive());
-			//view.setAddress(office.getAddress());
-			//view.setPhone(office.getPhone());
-			views.add(view);
-		}
-		return views;
-		
+
 	}
 
 }
