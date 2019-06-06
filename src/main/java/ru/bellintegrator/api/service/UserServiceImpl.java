@@ -21,7 +21,7 @@ import ru.bellintegrator.api.exceptions.NoSuchCountryException;
 import ru.bellintegrator.api.exceptions.NoSuchDocumentException;
 import ru.bellintegrator.api.exceptions.NoSuchOfficeException;
 import ru.bellintegrator.api.exceptions.NoSuchUserException;
-import ru.bellintegrator.api.exceptions.UserDetailsInsertException;
+import ru.bellintegrator.api.exceptions.IncorrectUserDetailsException;
 import ru.bellintegrator.api.model.Country;
 import ru.bellintegrator.api.model.Doc;
 import ru.bellintegrator.api.model.Office;
@@ -74,45 +74,57 @@ public class UserServiceImpl implements UserService {
 			}
 			if (userView.getFirstName() != null && !userView.getFirstName().equals("") && userView.getPosition() != null
 					&& !userView.getPosition().equals("")) {
-
 				User user = new User();
-				user.setFirstName(userView.getFirstName());
-				user.setSecondName(userView.getSecondName());
-				user.setMiddleName(userView.getMiddleName());
-				user.setPosition(userView.getPosition());
 				user.setOffice(office);
+				user.setFirstName(userView.getFirstName());
+				user.setPosition(userView.getPosition());
 
-				String tmp = new String();
-				tmp = (userView.getPhone() != null) ? userView.getPhone() : "";
-				user.setPhone(tmp);
-				List<Doc> docs = documentDao.loadByName(userView.getDocName());
-				if (docs.size() > 0) {
-					Doc doc = docs.get(0);
+				if (userView.getSecondName() != null) {
+					user.setSecondName(userView.getSecondName());
+				}
+				if (userView.getMiddleName() != null) {
+					user.setMiddleName(userView.getMiddleName());
+				}
 
-					PersonalDoc personalDoc = new PersonalDoc();
-					try {
-						personalDoc.setDocDate(new SimpleDateFormat("dd-MM-yyyy").parse(userView.getDocDate()));
-					} catch (ParseException e) {
-						personalDoc.setDocDate(null);
+				if (userView.getPhone() != null) {
+					user.setPhone(userView.getPhone());
+				}
+
+				if (userView.getDocName() != null) {
+					List<Doc> docs = documentDao.loadByName(userView.getDocName());
+					if (docs.size() > 0) {
+						Doc doc = docs.get(0);
+						PersonalDoc personalDoc = new PersonalDoc();
+						if (userView.getDocDate() != null) {
+							try {
+								personalDoc.setDocDate(new SimpleDateFormat("dd-MM-yyyy").parse(userView.getDocDate()));
+							} catch (ParseException e) {
+								throw new IncorrectDateFormatException();
+							}
+						}
+						personalDoc.setNumber(userView.getDocNumber());
+						personalDoc.setDocument(doc);
+						user.setPersonalDocument(personalDoc);
+						System.out.println(userView.getCitizenshipCode());
+						personalDocDao.save(personalDoc);
+					} else {
+						throw new NoSuchDocumentException();
 					}
-					personalDoc.setNumber(userView.getDocNumber());
-					personalDoc.setDocument(doc);
-					user.setPersonalDocument(personalDoc);
-					System.out.println(userView.getCitizenshipCode());
-					personalDocDao.save(personalDoc);
 				}
 				if (userView.getCitizenshipCode() != null) {
 					List<Country> countries = countryDao.loadByCode(userView.getCitizenshipCode());
 					if (countries.size() > 0) {
 						Country country = countries.get(0);
 						user.setCitizenship(country);
+					} else {
+						throw new NoSuchCountryException();
 					}
 
 				}
 				System.out.println(user.toString());
 				userDao.save(user);
 			} else {
-				throw new UserDetailsInsertException();
+				throw new IncorrectUserDetailsException();
 			}
 
 		}
@@ -124,54 +136,54 @@ public class UserServiceImpl implements UserService {
 	public SuccessView updateUser(UserView view) {
 		if (view.getId() != null && !view.getId().equals("") && view.getFirstName() != null
 				&& !view.getFirstName().equals("") && view.getPosition() != null && !view.getPosition().equals("")) {
+
 			User user = userDao.loadById(Long.parseLong(view.getId()));
+			PersonalDoc persDoc = personalDocDao.loadById(user.getPersonalDocument().getId());
+			Doc doc = documentDao.loadById(persDoc.getDocument().getId());
+
 			if (user == null) {
 				throw new NoSuchUserException();
 			}
-
+			
 			user.setFirstName(view.getFirstName());
-			user.setMiddleName(view.getMiddleName());
-			user.setSecondName(view.getSecondName());
+			user.setPosition(view.getPosition());
+
+			if (view.getSecondName() != null) {
+				user.setSecondName(view.getSecondName());
+			}
+			if (view.getMiddleName() != null) {
+				user.setMiddleName(view.getMiddleName());
+			}
+
+			if (view.getPhone() != null) {
+				user.setPhone(view.getPhone());
+			}
+
 			if (view.getOfficeId() != null && !view.getOfficeId().equals("")) {
 				Office office = officeDao.loadById(Long.parseLong(view.getOfficeId()));
 				if (office == null) {
 					throw new NoSuchOfficeException();
 				}
 				user.setOffice(office);
-			} else {
-				user.setOffice(null);
-			}
+			} 
 
-			user.setPosition(view.getPosition());
-			user.setPhone(view.getPhone());
-
-			PersonalDoc persDoc = personalDocDao.loadById(user.getPersonalDocument().getId());
-			Doc doc = documentDao.loadById(persDoc.getDocument().getId());
-			String newDocName = (view.getDocName() != null && !view.getDocName().equals("")) ? view.getDocName() : "";
-			String newDocNumber = (view.getDocNumber() != null && !view.getDocNumber().equals("")) ? view.getDocNumber()
-					: "";
-			String newDocDate = (view.getDocDate() != null && !view.getDocDate().equals("")) ? view.getDocDate() : "";
-
-			if (!newDocNumber.equals("")) {
-				persDoc.setNumber(newDocNumber);
-			}
-
-			if (!newDocDate.equals("")) {
-				try {
-					persDoc.setDocDate(new SimpleDateFormat("dd-MM-yyyy").parse(newDocDate));
-				} catch (ParseException e) {
-					throw new IncorrectDateFormatException();
+			if (view.getDocName() != null && !view.getDocName().equals("")) {
+				List<Doc> docs = documentDao.loadByName(view.getDocName());
+				if (docs.size() > 0) {
+					doc = docs.get(0);
+					persDoc.setDocument(doc);
 				}
 			}
 
-			if (view.getDocName() != null && !view.getDocName().equals("")) {
-				List<Doc> newDocs = documentDao.loadByName(newDocName);
-				if (newDocs.size() > 0) {
-					Doc newDoc = newDocs.get(0);
-					doc.setCode(newDoc.getCode());
-					doc.setName(newDoc.getName());
-				} else {
-					throw new NoSuchDocumentException();
+			if (view.getDocNumber() != null && !view.getDocNumber().equals("")) {
+				persDoc.setNumber(view.getDocNumber());
+			}
+
+			if (view.getDocDate() != null && !view.getDocDate().equals("")) {
+				try {
+					persDoc.setDocDate(new SimpleDateFormat("dd-MM-yyyy").parse(view.getDocDate()));
+				} catch (ParseException e) {
+					throw new IncorrectDateFormatException();
 				}
 			}
 
@@ -184,7 +196,6 @@ public class UserServiceImpl implements UserService {
 					throw new NoSuchCountryException();
 				}
 			}
-
 		} else {
 			throw new IncorretUserUpdateDataException();
 		}
@@ -193,33 +204,12 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public static List<UserView> mapAllUsers(List<User> users) {
-		SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
 		List<UserView> views = new ArrayList<>();
 		for (User user : users) {
-			String docName = "";
-			String docNumber = "";
-			String docDate = "";
-			if (user.getPersonalDocument() != null && !user.getPersonalDocument().equals("")) {
-				docName = user.getPersonalDocument().getDocument().getName();
-				docNumber = user.getPersonalDocument().getNumber();
-				docDate = formater.format(user.getPersonalDocument().getDocDate());
-			}
-			String officeId = "";
-			if (user.getOffice() != null) {
-			}
-			String country = "";
-			if (user.getCitizenship() != null) {
-				country = user.getCitizenship().getName();
-			}
-			UserView view = new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(),
-					user.getMiddleName(), user.getPosition(), user.getPhone(), docName, docNumber, docDate, officeId,
-					country);
-			view.setIdentified(user.isIdentified());
+			UserView view = mapUser(user);
 			views.add(view);
 		}
-
 		return views;
-
 	}
 
 	@Transactional

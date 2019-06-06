@@ -11,7 +11,7 @@ import ru.bellintegrator.api.exceptions.InsertUserException;
 import ru.bellintegrator.api.exceptions.NoSuchCountryException;
 import ru.bellintegrator.api.exceptions.NoSuchDocumentException;
 import ru.bellintegrator.api.exceptions.NoSuchOfficeException;
-import ru.bellintegrator.api.exceptions.UserDetailsInsertException;
+import ru.bellintegrator.api.exceptions.IncorrectUserDetailsException;
 import ru.bellintegrator.api.views.ErrorView;
 
 @ControllerAdvice
@@ -28,9 +28,9 @@ public class ControllersExceptionHandler {
 	}
 	
 	@ResponseBody
-	@ExceptionHandler(UserDetailsInsertException.class)
+	@ExceptionHandler(IncorrectUserDetailsException.class)
 	//@RequestMapping(value="/api/user/error+json")
-	public ErrorView handleNoUsernameOrPostionException(UserDetailsInsertException ex) {
+	public ErrorView handleNoUsernameOrPostionException(IncorrectUserDetailsException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("Incorrect/adsent username or position");
 		//add logger	
