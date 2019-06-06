@@ -1,5 +1,11 @@
 package ru.bellintegrator.api.controller.organization;
 
+//what is a static import? 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,64 +21,57 @@ import ru.bellintegrator.api.service.OrganizationService;
 import ru.bellintegrator.api.views.OrganizationView;
 import ru.bellintegrator.api.views.SuccessView;
 
-//what is a static import? 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 @Api("OrganizationController")
 @RestController
-@RequestMapping(value="api/organization", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/organization", produces = APPLICATION_JSON_VALUE)
 public class OrganizationController {
-	
+
 	private final OrganizationService organizationService;
-	
+
 	@Autowired
 	public OrganizationController(OrganizationService organizationService) {
 		this.organizationService = organizationService;
 	}
-	
-	@ApiOperation(value = "получить организацию по id", httpMethod="POST" )
+
+	@ApiOperation(value = "получить организацию по id", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@GetMapping(value="/{id}")
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@GetMapping(value = "/{id}")
 	public OrganizationView organizationByID(@PathVariable Long id) {
 		return organizationService.getOrgById(id);
 	}
-	
-	@ApiOperation(value = "получить организации по имени, инн", httpMethod="POST" )
+
+	@ApiOperation(value = "получить организации по имени, инн", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping(value="/list")
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value = "/list")
 	public List<OrganizationView> organizationsByName(@RequestBody OrganizationView view) {
-		 List<OrganizationView> views  = organizationService.listOrgByName(view);
-		 return views;
+		List<OrganizationView> views = organizationService.listOrgByName(view);
+		return views;
 	}
-	
-	@ApiOperation(value = "получить организации по имени, инн", httpMethod="GET" )
+
+	@ApiOperation(value = "получить организации по имени, инн", httpMethod = "GET")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@GetMapping(value="/list")
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@GetMapping(value = "/list")
 	public List<OrganizationView> allOrganizations() {
-		 return organizationService.organizations();
+		return organizationService.organizations();
 	}
-	
-	@ApiOperation(value = "добавить новую организацию", httpMethod="POST" )
+
+	@ApiOperation(value = "добавить новую организацию", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping(value="/save")
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value = "/save")
 	public SuccessView insertNewOrganization(@RequestBody OrganizationView view) {
-		 return organizationService.insertOrganization(view);
+		return organizationService.insertOrganization(view);
 	}
-	
-	@ApiOperation(value = "Изменить данные организации", httpMethod="POST" )
+
+	@ApiOperation(value = "Изменить данные организации", httpMethod = "POST")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
-	@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@PostMapping(value="/update")
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	@PostMapping(value = "/update")
 	public SuccessView updateOrganization(@RequestBody OrganizationView view) {
-		 return organizationService.updateOrganization(view);
+		return organizationService.updateOrganization(view);
 	}
-	
+
 }
