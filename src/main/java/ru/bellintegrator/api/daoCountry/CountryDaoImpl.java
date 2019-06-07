@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ru.bellintegrator.api.model.Country;
-import ru.bellintegrator.api.model.Doc;
 
 @Repository
 public class CountryDaoImpl implements CountryDao {
@@ -48,15 +47,14 @@ public class CountryDaoImpl implements CountryDao {
 		TypedQuery<Country> query = em.createQuery(criteria);
 		return query.getResultList();
 	}
-	
-	
-	private CriteriaQuery<Country> buildCriteria(String code){
+
+	private CriteriaQuery<Country> buildCriteria(String code) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Country> criteria = builder.createQuery(Country.class);
 		Root<Country> org = criteria.from(Country.class);
-		
+
 		List<Predicate> predicates = new ArrayList<>();
-		if(code != null) {
+		if (code != null) {
 			predicates.add(builder.equal(org.get("code"), code));
 		}
 

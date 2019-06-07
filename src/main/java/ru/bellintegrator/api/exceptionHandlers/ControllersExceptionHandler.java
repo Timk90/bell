@@ -1,9 +1,14 @@
 package ru.bellintegrator.api.exceptionHandlers;
 
+import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import ru.bellintegrator.api.exceptions.IncorrectDateFormatException;
 import ru.bellintegrator.api.exceptions.IncorrectIdFormatException;
 import ru.bellintegrator.api.exceptions.IncorrectInsertOrganizationDataException;
@@ -17,10 +22,40 @@ import ru.bellintegrator.api.exceptions.NoSuchCountryException;
 import ru.bellintegrator.api.exceptions.NoSuchDocumentException;
 import ru.bellintegrator.api.exceptions.NoSuchOfficeException;
 import ru.bellintegrator.api.exceptions.NoSuchOrganizationException;
+import ru.bellintegrator.api.exceptions.NoSuchUserException;
+import ru.bellintegrator.api.views.DataView;
 import ru.bellintegrator.api.views.ErrorView;
+import ru.bellintegrator.api.views.SuccessView;
 
 @ControllerAdvice
-public class ControllersExceptionHandler {
+public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
+
+	@Override
+	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+		return true;
+	}
+
+	@Override
+	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
+		if (!body.getClass().equals(SuccessView.class) && !body.getClass().equals(ErrorView.class)) {
+			DataView data = new DataView();
+			data.setData(body);
+			return data;
+		}
+		return body;
+	}
+
+	@ResponseBody
+	@ExceptionHandler(NoSuchUserException.class)
+	// @RequestMapping(value="/api/user/error+json")
+	public ErrorView handleNoSuchUserException(NoSuchUserException ex) {
+		ErrorView error = new ErrorView();
+		error.setError("No such user exists in DB");
+		// add logger
+		return error;
+	}
 
 	@ResponseBody
 	@ExceptionHandler(NoSuchOfficeException.class)
@@ -130,7 +165,7 @@ public class ControllersExceptionHandler {
 		// add logger
 		return error;
 	}
-	
+
 	@ResponseBody
 	@ExceptionHandler(NoSuchOrganizationException.class)
 	public ErrorView handleNoSuchOrganizationException(NoSuchOrganizationException ex) {

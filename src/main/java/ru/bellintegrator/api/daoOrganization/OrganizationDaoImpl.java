@@ -12,18 +12,19 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import ru.bellintegrator.api.model.Organization;
 
 @Repository
-public class OrganizationDaoImpl implements OrganizationDao{
+public class OrganizationDaoImpl implements OrganizationDao {
 
-    private final EntityManager em;
-	
-    @Autowired
-    public OrganizationDaoImpl(EntityManager em) {
-        this.em = em;
-    }
-	
+	private final EntityManager em;
+
+	@Autowired
+	public OrganizationDaoImpl(EntityManager em) {
+		this.em = em;
+	}
+
 	@Override
 	public List<Organization> loadByName(String name, String inn, boolean isActive) {
 		CriteriaQuery<Organization> criteria = buildCriteria(name, inn, isActive);
@@ -33,44 +34,44 @@ public class OrganizationDaoImpl implements OrganizationDao{
 
 	@Override
 	public List<Organization> all() {
-        TypedQuery<Organization> query = em.createQuery("SELECT o FROM Organization o", Organization.class);
-        return query.getResultList();
+		TypedQuery<Organization> query = em.createQuery("SELECT o FROM Organization o", Organization.class);
+		return query.getResultList();
 	}
 
 	@Override
 	public Organization loadById(Long id) {
-        return em.find(Organization.class, id);
+		return em.find(Organization.class, id);
 	}
 
 	@Override
 	public void save(Organization organization) {
-		if(organization.getId()==null) {
-			em.persist(organization);	
-		}else {
+		if (organization.getId() == null) {
+			em.persist(organization);
+		} else {
 			em.merge(organization);
 		}
-	}	
-	
-	private CriteriaQuery<Organization> buildCriteria(String name, String inn, boolean isActive){
+	}
+
+	private CriteriaQuery<Organization> buildCriteria(String name, String inn, boolean isActive) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class);
 		Root<Organization> org = criteria.from(Organization.class);
-		
+
 		List<Predicate> predicates = new ArrayList<>();
-		if(name != null) {
+		if (name != null) {
 			predicates.add(builder.equal(org.get("name"), name));
 		}
-		
-		if(inn != null) {
+
+		if (inn != null) {
 			predicates.add(builder.equal(org.get("inn"), inn));
 		}
-		
-		if(isActive == true) {
+
+		if (isActive == true) {
 			predicates.add(builder.equal(org.get("isActive"), isActive));
 		}
 
 		criteria.where(predicates.toArray(new Predicate[] {}));
 		return criteria;
 	}
-	
+
 }

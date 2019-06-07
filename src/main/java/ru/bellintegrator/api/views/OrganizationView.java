@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Организация")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
-	
+
 	@NotEmpty
 	@ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
 	private String id;
@@ -24,7 +24,7 @@ public class OrganizationView {
 	@Size(max = 50)
 	@ApiModelProperty(value = "Полное название", example = "Bosh Lim. Inc.")
 	private String fullName;
-	
+
 	@Size(max = 50)
 	@ApiModelProperty(value = "ИНН", example = "321311313")
 	private String inn;
@@ -32,7 +32,7 @@ public class OrganizationView {
 	@Size(max = 50)
 	@ApiModelProperty(value = "КПП", example = "3123131232")
 	private String kpp;
-	
+
 	@Size(max = 50)
 	@ApiModelProperty(value = "Адрес", example = "Восход 13")
 	private String address;
@@ -40,13 +40,13 @@ public class OrganizationView {
 	@Size(max = 50)
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
-	
+
 	private boolean isActive;
 
 	public OrganizationView() {
-		
+
 	}
-	
+
 	public OrganizationView(@NotEmpty String id, @Size(max = 50) @NotEmpty(message = "name cannot be null") String name,
 			@Size(max = 50) String fullName, @Size(max = 50) String inn, @Size(max = 50) String kpp,
 			@Size(max = 50) String phone, boolean isActive) {
@@ -59,12 +59,11 @@ public class OrganizationView {
 		this.isActive = isActive;
 	}
 
-
-	//getters and setters 
+	// getters and setters
 	public String getId() {
 		return id;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -127,11 +126,8 @@ public class OrganizationView {
 
 	@Override
 	public String toString() {
-		return "{id:" + id + "; name:" + name + "; fullName:" + fullName + "; inn:" + inn + "; kpp:"
-				+ kpp + "; address:" + address + "; phone:" + phone + "; isActive:" + isActive + "}";
+		return "{id:" + id + "; name:" + name + "; fullName:" + fullName + "; inn:" + inn + "; kpp:" + kpp
+				+ "; address:" + address + "; phone:" + phone + "; isActive:" + isActive + "}";
 	}
-	
-	
-	
 
 }

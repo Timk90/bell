@@ -104,7 +104,6 @@ public class UserServiceImpl implements UserService {
 						personalDoc.setNumber(userView.getDocNumber());
 						personalDoc.setDocument(doc);
 						user.setPersonalDocument(personalDoc);
-						System.out.println(userView.getCitizenshipCode());
 						personalDocDao.save(personalDoc);
 					} else {
 						throw new NoSuchDocumentException();
@@ -120,7 +119,6 @@ public class UserServiceImpl implements UserService {
 					}
 
 				}
-				System.out.println(user.toString());
 				userDao.save(user);
 			} else {
 				throw new IncorrectUserDetailsException();
@@ -137,11 +135,18 @@ public class UserServiceImpl implements UserService {
 				&& !view.getFirstName().equals("") && view.getPosition() != null && !view.getPosition().equals("")) {
 
 			User user = userDao.loadById(Long.parseLong(view.getId()));
-			PersonalDoc persDoc = personalDocDao.loadById(user.getPersonalDocument().getId());
-			Doc doc = documentDao.loadById(persDoc.getDocument().getId());
-
 			if (user == null) {
 				throw new NoSuchUserException();
+			}
+
+			PersonalDoc persDoc = personalDocDao.loadById(user.getPersonalDocument().getId());
+			if (persDoc == null) {
+				throw new NoSuchDocumentException();
+			}
+
+			Doc doc = documentDao.loadById(persDoc.getDocument().getId());
+			if (doc == null) {
+				throw new NoSuchDocumentException();
 			}
 
 			user.setFirstName(view.getFirstName());

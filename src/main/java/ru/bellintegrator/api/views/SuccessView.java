@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModel;
 
-@ApiModel(description="удачное исполнение действия")
+@ApiModel(description = "удачное исполнение действия")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SuccessView {
-	
+
 	String result;
-	
-	public SuccessView() {}
-	
+
+	public SuccessView() {
+	}
+
 	public SuccessView(String result) {
 		this.result = result;
 	}
@@ -23,6 +24,5 @@ public class SuccessView {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	
-	
+
 }

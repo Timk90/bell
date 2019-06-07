@@ -74,13 +74,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 			} catch (NumberFormatException ex) {
 				throw new IncorrectIdFormatException();
 			}
-		}else {
+		} else {
 			throw new IncorrectUpdateOrganizationDataException();
 		}
 		if (view.getName() != null && view.getFullName() != null && view.getInn() != null && view.getKpp() != null
 				&& view.getAddress() != null) {
 			Organization organization = orgDao.loadById(Long.parseLong(view.getId()));
-			if(organization != null) {
+			if (organization != null) {
 				organization.setName(view.getName());
 				organization.setFullName(view.getFullName());
 				organization.setInn(view.getInn());
@@ -89,11 +89,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 				organization.setPhone(view.getPhone());
 				organization.setActive(true);
 				orgDao.save(organization);
-			}else {
+			} else {
 				throw new NoSuchOrganizationException();
 			}
 
-		}else {
+		} else {
 			throw new IncorrectUpdateOrganizationDataException();
 		}
 		return new SuccessView("Success!");

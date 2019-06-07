@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ru.bellintegrator.api.model.Doc;
-import ru.bellintegrator.api.model.Organization;
 
 @Repository
 public class DocDaoImpl implements DocDao {
@@ -43,7 +42,7 @@ public class DocDaoImpl implements DocDao {
 		TypedQuery<Doc> query = em.createQuery(criteria);
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public List<Doc> loadByCode(String code) {
 		CriteriaQuery<Doc> criteria = buildCriteriaCode(code);
@@ -55,28 +54,28 @@ public class DocDaoImpl implements DocDao {
 	public void save(Doc doc) {
 		em.persist(doc);
 	}
-	
-	private CriteriaQuery<Doc> buildCriteriaName(String name){
+
+	private CriteriaQuery<Doc> buildCriteriaName(String name) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Doc> criteria = builder.createQuery(Doc.class);
 		Root<Doc> doc = criteria.from(Doc.class);
-		
+
 		List<Predicate> predicates = new ArrayList<>();
-		if(name != null) {
+		if (name != null) {
 			predicates.add(builder.equal(doc.get("name"), name));
 		}
 
 		criteria.where(predicates.toArray(new Predicate[] {}));
 		return criteria;
 	}
-	
-	private CriteriaQuery<Doc> buildCriteriaCode(String code){
+
+	private CriteriaQuery<Doc> buildCriteriaCode(String code) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Doc> criteria = builder.createQuery(Doc.class);
 		Root<Doc> org = criteria.from(Doc.class);
-		
+
 		List<Predicate> predicates = new ArrayList<>();
-		if(code != null) {
+		if (code != null) {
 			predicates.add(builder.equal(org.get("code"), code));
 		}
 

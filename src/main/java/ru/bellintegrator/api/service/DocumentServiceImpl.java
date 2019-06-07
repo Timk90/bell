@@ -15,9 +15,9 @@ import ru.bellintegrator.api.views.DocumentView;
 @Service
 @Transactional
 public class DocumentServiceImpl implements DocumentService {
-	
+
 	private final DocDao docDao;
-	
+
 	@Autowired
 	public DocumentServiceImpl(DocDao docDao) {
 		this.docDao = docDao;
@@ -27,17 +27,17 @@ public class DocumentServiceImpl implements DocumentService {
 	public List<DocumentView> getAllDocumentTypes() {
 		return mapAllDocuments(docDao.all());
 	}
-	
+
 	private DocumentView mapDoc(Doc doc) {
 		DocumentView dv = new DocumentView();
 		dv.setCode(doc.getCode());
 		dv.setName(doc.getName());
 		return dv;
 	}
-	
-	private List<DocumentView> mapAllDocuments(List<Doc> docs){
+
+	private List<DocumentView> mapAllDocuments(List<Doc> docs) {
 		List<DocumentView> views = new ArrayList<>();
-		for(Doc doc : docs) {
+		for (Doc doc : docs) {
 			DocumentView dv = mapDoc(doc);
 			views.add(dv);
 		}

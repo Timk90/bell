@@ -20,32 +20,32 @@ import ru.bellintegrator.api.views.DocumentView;
 
 @Api("OrganizationController")
 @RestController
-@RequestMapping(value="/api", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = APPLICATION_JSON_VALUE)
 public class CatalogsController {
-	
+
 	private CountryService countryService;
 	private final DocumentService docService;
-	
+
 	@Autowired
 	public CatalogsController(CountryService countryService, DocumentService docService) {
 		this.countryService = countryService;
 		this.docService = docService;
 	}
-	
+
 	@ApiOperation(value = "получить список всех стран", httpMethod = "GET")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@GetMapping(value="/countries")
-	public List<CountryView> showCountryList(){
+	@GetMapping(value = "/countries")
+	public List<CountryView> showCountryList() {
 		List<CountryView> countries = countryService.getAllCountries();
 		return countries;
 	}
-	
+
 	@ApiOperation(value = "получить список всех документов", httpMethod = "GET")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	@GetMapping(value="/docs")
-	public List<DocumentView> showDocumentsList(){
+	@GetMapping(value = "/docs")
+	public List<DocumentView> showDocumentsList() {
 		List<DocumentView> docs = docService.getAllDocumentTypes();
 		return docs;
 	}

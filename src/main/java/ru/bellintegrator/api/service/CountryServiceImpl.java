@@ -8,22 +8,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.bellintegrator.api.daoCountry.CountryDao;
-import ru.bellintegrator.api.daoDoc.DocDao;
 import ru.bellintegrator.api.model.Country;
 import ru.bellintegrator.api.views.CountryView;
-import ru.bellintegrator.api.views.DocumentView;
 
 @Service
 @Transactional
-public class CountryServiceImpl implements CountryService{
+public class CountryServiceImpl implements CountryService {
 
 	private final CountryDao countryDao;
-	
+
 	@Autowired
 	public CountryServiceImpl(CountryDao countryDao) {
 		this.countryDao = countryDao;
 	}
-	
+
 	@Override
 	public List<CountryView> getAllCountries() {
 		return mapAllCountries(countryDao.all());
@@ -35,10 +33,10 @@ public class CountryServiceImpl implements CountryService{
 		view.setName(country.getName());
 		return view;
 	}
-	
-	private List<CountryView> mapAllCountries(List<Country> countries){
+
+	private List<CountryView> mapAllCountries(List<Country> countries) {
 		List<CountryView> countryViews = new ArrayList<>();
-		for(Country country : countries) {
+		for (Country country : countries) {
 			CountryView cv = mapCountry(country);
 			countryViews.add(cv);
 		}

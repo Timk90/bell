@@ -17,10 +17,10 @@ public class OfficeView {
 	private String id;
 
 	@Size(max = 50)
-	//@NotEmpty(message = "name cannot be null")
+	// @NotEmpty(message = "name cannot be null")
 	@ApiModelProperty(value = "Название", example = "Bosh Inc Ltd itd...")
 	private String name;
-	
+
 	@Size(max = 50)
 	@ApiModelProperty(value = "Адрес", example = "Восход 13")
 	private String address;
@@ -28,11 +28,11 @@ public class OfficeView {
 	@Size(max = 50)
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
-	
+
 	@Size(max = 50)
 	@ApiModelProperty(value = "ID организации", example = "1")
 	private String orgId;
-	
+
 	private boolean isActive;
 
 	public OfficeView() {
@@ -48,8 +48,8 @@ public class OfficeView {
 		this.orgId = orgId;
 		this.isActive = isActive;
 	}
-	
-	//getters and setters
+
+	// getters and setters
 	public String getId() {
 		return id;
 	}
@@ -97,5 +97,5 @@ public class OfficeView {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-		
+
 }

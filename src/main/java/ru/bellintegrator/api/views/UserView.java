@@ -7,9 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import ru.bellintegrator.api.model.Country;
-import ru.bellintegrator.api.model.Office;
-import ru.bellintegrator.api.model.PersonalDoc;
 
 @ApiModel(description = "Сотрудник")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,15 +41,15 @@ public class UserView {
 	private String officeId;
 
 	private String citizenshipCode;
-	
+
 	private String docName;
-	
+
 	private String docNumber;
-	
+
 	private String docDate;
 
 	private boolean isIdentified;
-	
+
 	// getters ad setters
 	public String getId() {
 		return id;
@@ -152,35 +149,29 @@ public class UserView {
 
 	public UserView(@Size(max = 50) @NotEmpty(message = "name cannot be null") String id,
 			@Size(max = 50) @NotEmpty(message = "name cannot be null") String firstName,
-			@Size(max = 50) String secondName, 
-			@Size(max = 50) String middleName,
+			@Size(max = 50) String secondName, @Size(max = 50) String middleName,
 			@Size(max = 50) @NotEmpty(message = "position cannot be null") String position,
-			@Size(max = 50) String phone, 
-			String personalDocumentName, 
-			String personalDocumentNumber, 
-			String personalDocumentDate, 
-			String officeId, 
-			String citizenship) {
-		this.id = (id!=null) ? id: "no ID";
-		this.firstName = (firstName!=null) ? firstName: "";
-		this.secondName = (secondName!=null) ? secondName: "";
-		this.middleName = (middleName!=null) ? middleName: "";
-		this.position = (phone!=null) ? position: "";
-		this.phone = (phone!=null) ? phone: "";
-		this.docName = (personalDocumentName!=null) ? personalDocumentName : "";
-		this.docNumber = (personalDocumentNumber!=null) ? personalDocumentNumber : "";
-		this.docDate = (personalDocumentDate!=null) ? personalDocumentDate : "";
-		this.officeId = (officeId!=null) ? officeId: "";
-		this.citizenshipCode = (citizenship!=null) ? citizenship : "";
+			@Size(max = 50) String phone, String personalDocumentName, String personalDocumentNumber,
+			String personalDocumentDate, String officeId, String citizenship) {
+		this.id = (id != null) ? id : "no ID";
+		this.firstName = (firstName != null) ? firstName : "";
+		this.secondName = (secondName != null) ? secondName : "";
+		this.middleName = (middleName != null) ? middleName : "";
+		this.position = (phone != null) ? position : "";
+		this.phone = (phone != null) ? phone : "";
+		this.docName = (personalDocumentName != null) ? personalDocumentName : "";
+		this.docNumber = (personalDocumentNumber != null) ? personalDocumentNumber : "";
+		this.docDate = (personalDocumentDate != null) ? personalDocumentDate : "";
+		this.officeId = (officeId != null) ? officeId : "";
+		this.citizenshipCode = (citizenship != null) ? citizenship : "";
 	}
 
 	@Override
 	public String toString() {
 		return "{id:" + id + ";officeId:" + officeId + ";firstname:" + firstName + ";secondName:" + secondName
-				+ ";middleName:" + middleName + ";position:" + position + ";phone:" + phone + ";docName:"
-				+ docName + ";docNumber:" + docNumber + ";docDate:"
-				+ docDate + ";citizenship:" + citizenshipCode + ";isidentified:"
-				+ isIdentified + "}";
+				+ ";middleName:" + middleName + ";position:" + position + ";phone:" + phone + ";docName:" + docName
+				+ ";docNumber:" + docNumber + ";docDate:" + docDate + ";citizenship:" + citizenshipCode
+				+ ";isidentified:" + isIdentified + "}";
 	}
 
 }

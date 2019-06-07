@@ -14,7 +14,7 @@ import ru.bellintegrator.api.model.PersonalDoc;
 public class PerosnalDocDaoImpl implements PersonalDocDao {
 
 	private final EntityManager em;
-	
+
 	@Autowired
 	public PerosnalDocDaoImpl(EntityManager em) {
 		this.em = em;
@@ -30,7 +30,7 @@ public class PerosnalDocDaoImpl implements PersonalDocDao {
 	public PersonalDoc loadById(Long id) {
 		return em.find(PersonalDoc.class, id);
 	}
-	
+
 	@Override
 	public PersonalDoc loadByName(String name) {
 		return null;
@@ -38,12 +38,12 @@ public class PerosnalDocDaoImpl implements PersonalDocDao {
 
 	@Override
 	public void save(PersonalDoc personalDoc) {
-		if(personalDoc.getId()==null) {
-			em.persist(personalDoc);	
-		}else {
+		if (personalDoc.getId() == null) {
+			em.persist(personalDoc);
+		} else {
 			em.merge(personalDoc);
 		}
-		
+
 	}
 
 }

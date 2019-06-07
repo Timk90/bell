@@ -67,10 +67,10 @@ public class Organization {
 	public void setOffices(List<Office> offices) {
 		this.offices = offices;
 	}
-	
+
 	public Organization() {
 	}
-	
+
 	public Organization(Long id) {
 		this.id = id;
 	}
