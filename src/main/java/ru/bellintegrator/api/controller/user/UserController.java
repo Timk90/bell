@@ -53,10 +53,6 @@ public class UserController {
 	@GetMapping("/list")
 	public List<UserView> persons() {
 		List<UserView> users = userService.users();
-		// List<UserView> userViews = mapAllUsers(users);
-		for (UserView uv : users) {
-			System.out.println(uv.toString());
-		}
 		return users;
 	}
 
@@ -64,8 +60,6 @@ public class UserController {
 	@GetMapping("/{id}")
 	public UserView person(@PathVariable Long id) {
 		UserView user = userService.getUserById(id);
-
-		System.out.println(user.toString());
 		return user;
 	}
 

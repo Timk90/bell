@@ -1,5 +1,7 @@
 package ru.bellintegrator.api.exceptionHandlers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -30,6 +32,8 @@ import ru.bellintegrator.api.views.SuccessView;
 @ControllerAdvice
 public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 
+	Logger logger = LoggerFactory.getLogger(ControllersExceptionHandler.class);
+
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 		return true;
@@ -53,7 +57,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoSuchUserException(NoSuchUserException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("No such user exists in DB");
-		// add logger
+		logger.warn("No such user exists in DB");
 		return error;
 	}
 
@@ -63,7 +67,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoSuchOfficeException(NoSuchOfficeException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("No such office exists");
-		// add logger
+		logger.warn("No such office exists");
 		return error;
 	}
 
@@ -72,7 +76,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoUsernameOrPostionException(IncorrectUserDetailsException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("Incorrect/adsent username or position");
-		// add logger
+		logger.warn("Incorrect/adsent username or position");
 		return error;
 	}
 
@@ -81,7 +85,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoUsernameOrPostionException(IncorretUserUpdateDataException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("Incorrect/adsent id, username or position");
-		// add logger
+		logger.warn("Incorrect/adsent  id, username or position");
 		return error;
 	}
 
@@ -90,7 +94,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleInsertUserException(InsertUserException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("Incorrect data for insert");
-		// add logger
+		logger.error("Incorrect data for insert");
 		return error;
 	}
 
@@ -99,7 +103,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleIncorrectDataFormatException(IncorrectDateFormatException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("Incorrect date format. Data should has fallowing format: dd-MM-yyyy; Example: 31-02-2012");
-		// add logger
+		logger.error("Incorrect data for insert");
 		return error;
 	}
 
@@ -108,7 +112,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoSuchCountryException(NoSuchCountryException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("There is no country found with this country code");
-		// add logger
+		logger.warn("There is no country found with this country code");
 		return error;
 	}
 
@@ -117,7 +121,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoSuchDocumentException(NoSuchDocumentException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("No such document exists");
-		// add logger
+		logger.warn("No such document exists");
 		return error;
 	}
 
@@ -126,7 +130,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleIncorrectIdFormatException(IncorrectIdFormatException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("Incorrect Id value. Only numerical natural values are excpected.");
-		// add logger
+		logger.warn("Incorrect Id value. Only numerical natural values are excpected");
 		return error;
 	}
 
@@ -135,7 +139,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleIncorrectOfficeUpdateDataException(IncorrectOfficeUpdateDataException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("To update office the next fields are required: id, name, address.");
-		// add logger
+		logger.warn("To update office the next fields are required: id, name, address.");
 		return error;
 	}
 
@@ -143,8 +147,8 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	@ExceptionHandler(IncorrectOfficeInsertDataException.class)
 	public ErrorView handleIncorrectOfficeUpdateDataException(IncorrectOfficeInsertDataException ex) {
 		ErrorView error = new ErrorView();
-		error.setError("To insert a new office id is required.");
-		// add logger
+		error.setError("To insert a new office ID field is required.");
+		logger.warn("To insert a new office ID field is required.");
 		return error;
 	}
 
@@ -153,7 +157,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleIncorrectInsertOrganizationDataException(IncorrectInsertOrganizationDataException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("To add a new organizations: fullName, inn, kpp, address are required.");
-		// add logger
+		logger.warn("To add a new organizations: fullName, inn, kpp, address are required.");
 		return error;
 	}
 
@@ -162,7 +166,7 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleIncorrectUpdateOrganizationDataException(IncorrectUpdateOrganizationDataException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("To update an organization: id, fullName, inn, kpp, address are required.");
-		// add logger
+		logger.warn("To update an organization: id, fullName, inn, kpp, address are required.");
 		return error;
 	}
 
@@ -171,7 +175,17 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 	public ErrorView handleNoSuchOrganizationException(NoSuchOrganizationException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("No such organization exists");
-		// add logger
+		logger.warn("No such organization exists");
 		return error;
 	}
+
+	@ResponseBody
+	@ExceptionHandler(Exception.class)
+	public ErrorView handleException(Exception ex) {
+		ErrorView error = new ErrorView();
+		error.setError("Unexpected Error has occured");
+		logger.error("Unknown Error has occured");
+		return error;
+	}
+
 }
