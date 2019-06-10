@@ -4,10 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModel;
 
+/**
+ * представление при успешном запросе изменения или добавления сущности в бд
+ */
 @ApiModel(description = "удачное исполнение действия")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SuccessView {
 
+	/**
+	 * текст сопутствующий успешному выплнению запроса
+	 */
 	String result;
 
 	public SuccessView() {

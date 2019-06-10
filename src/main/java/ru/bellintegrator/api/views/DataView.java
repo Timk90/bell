@@ -4,10 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModel;
 
+/**
+ * отображение представления обертки объекта data
+ */
 @ApiModel(description = "данные")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataView {
 
+	/**
+	 * отображение данных
+	 */
 	private Object data;
 
 	public DataView() {

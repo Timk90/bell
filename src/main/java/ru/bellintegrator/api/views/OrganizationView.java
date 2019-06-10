@@ -8,43 +8,69 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * представление для организации
+ */
 @ApiModel(description = "Организация")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
 
+	/**
+	 * id представления организации
+	 */
 	@NotEmpty
 	@ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
 	private String id;
 
+	/**
+	 * имя представления организации
+	 */
 	@Size(max = 50)
 	@NotEmpty(message = "name cannot be null")
 	@ApiModelProperty(value = "Название", example = "Bosh")
 	private String name;
 
+	/**
+	 * полное имя представления организации
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Полное название", example = "Bosh Lim. Inc.")
 	private String fullName;
 
+	/**
+	 * ИНН представления организации
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "ИНН", example = "321311313")
 	private String inn;
 
+	/**
+	 * КПП представления организации
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "КПП", example = "3123131232")
 	private String kpp;
 
+	/**
+	 * адрес представления организации
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Адрес", example = "Восход 13")
 	private String address;
 
+	/**
+	 * номер телефона представления организации
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
 
+	/**
+	 * активность представления организации
+	 */
 	private boolean isActive;
 
 	public OrganizationView() {
-
 	}
 
 	public OrganizationView(@NotEmpty String id, @Size(max = 50) @NotEmpty(message = "name cannot be null") String name,
@@ -59,7 +85,6 @@ public class OrganizationView {
 		this.isActive = isActive;
 	}
 
-	// getters and setters
 	public String getId() {
 		return id;
 	}

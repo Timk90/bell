@@ -49,6 +49,9 @@ public class UserServiceImpl implements UserService {
 		this.personalDocDao = personalDocDao;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public List<UserView> users() {
@@ -56,12 +59,18 @@ public class UserServiceImpl implements UserService {
 		return mapAllUsers(userList);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public UserView getUserById(Long id) {
 		return mapUser(userDao.loadById(id));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public SuccessView insertUser(UserView userView) {
@@ -128,6 +137,9 @@ public class UserServiceImpl implements UserService {
 		return new SuccessView("success");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public SuccessView updateUser(UserView view) {
@@ -206,7 +218,12 @@ public class UserServiceImpl implements UserService {
 		return new SuccessView("success");
 	}
 
-	@Transactional
+	/**
+	 * отображение списка сотрудников на список соответствующих представлений
+	 * 
+	 * @param users
+	 * @return
+	 */
 	public static List<UserView> mapAllUsers(List<User> users) {
 		List<UserView> views = new ArrayList<>();
 		for (User user : users) {
@@ -216,7 +233,12 @@ public class UserServiceImpl implements UserService {
 		return views;
 	}
 
-	@Transactional
+	/**
+	 * отображение одного пользователя на соответствующее представление
+	 * 
+	 * @param user
+	 * @return
+	 */
 	public static UserView mapUser(User user) {
 		SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
 		UserView view = new UserView(user.getId() + "", user.getFirstName(), user.getSecondName(), user.getMiddleName(),

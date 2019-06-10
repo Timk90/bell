@@ -20,22 +20,36 @@ public class OfficeDaoImpl implements OfficeDao {
 
 	private final EntityManager em;
 
+	/**
+	 * внедрение зависимости entityManager через конструктор
+	 * 
+	 * @param em
+	 */
 	@Autowired
 	public OfficeDaoImpl(EntityManager em) {
 		this.em = em;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Office> all() {
 		TypedQuery<Office> query = em.createQuery("SELECT o FROM Office o", Office.class);
 		return query.getResultList();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Office loadById(Long id) {
 		return em.find(Office.class, id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Office> loadByOrgId(Long orgId, String name, String phone, boolean isActive) {
 		CriteriaQuery<Office> criteria = buildCriteria(orgId, name, phone, isActive);
@@ -44,6 +58,9 @@ public class OfficeDaoImpl implements OfficeDao {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save(Office office) {
 		if (office.getId() == null) {
@@ -53,6 +70,15 @@ public class OfficeDaoImpl implements OfficeDao {
 		}
 	}
 
+	/**
+	 * создание критерия для поиска организации по указанным полям
+	 * 
+	 * @param orgId
+	 * @param name
+	 * @param phone
+	 * @param isActive
+	 * @return
+	 */
 	private CriteriaQuery<Office> buildCriteria(Long orgId, String name, String phone, boolean isActive) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Office> criteria = builder.createQuery(Office.class);

@@ -8,10 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+/**
+ * страна (национальность)
+ */
 @Entity
 @Table(name = "Countries")
 public class Country {
-
+	
+	/**
+	 * поле id
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -23,13 +29,18 @@ public class Country {
 	@Version
 	private Integer version;
 
+	/**
+	 * код страны
+	 */
 	@Column(name = "code", length = 50, nullable = false)
 	private String code;
 
+	/**
+	 * имя страны
+	 */
 	@Column(name = "name", length = 50, nullable = false)
 	private String name;
-
-	// getters and setters
+ 
 	public long getId() {
 		return id;
 	}

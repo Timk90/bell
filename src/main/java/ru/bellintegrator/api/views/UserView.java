@@ -8,49 +8,87 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * представление сотрудника
+ */
 @ApiModel(description = "Сотрудник")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserView {
 
+	/**
+	 * ID представления сотрудника
+	 */
 	@NotEmpty
 	@ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
 	private String id;
 
+	/**
+	 * имя представления сотрудника
+	 */
 	@Size(max = 50)
 	@NotEmpty(message = "name cannot be null")
 	@ApiModelProperty(value = "Имя", example = "Иван")
 	private String firstName;
 
+	/**
+	 * фамилия представления сотрудника
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Фамилия", example = "Иванов")
-
 	private String secondName;
+
+	/**
+	 * отчество представления сотрудника
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Отчество", example = "Иванович")
 	private String middleName;
 
+	/**
+	 * должность представления сотрудника
+	 */
 	@Size(max = 50)
 	@NotEmpty(message = "position cannot be null")
 	@ApiModelProperty(value = "должность", example = "менеджер")
 	private String position;
 
+	/**
+	 * номер телефона представления сотрудника
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
 
+	/**
+	 * ID офиса представления сотрудника
+	 */
 	private String officeId;
 
+	/**
+	 * код страны представления сотрудника
+	 */
 	private String citizenshipCode;
 
+	/**
+	 * имя личного документа представления сотрудника
+	 */
 	private String docName;
 
+	/**
+	 * номер личного документа представления сотрудника
+	 */
 	private String docNumber;
 
+	/**
+	 * дата выдачи личного документа представления сотрудника
+	 */
 	private String docDate;
 
+	/**
+	 * активность представления сотрудника
+	 */
 	private boolean isIdentified;
 
-	// getters ad setters
 	public String getId() {
 		return id;
 	}

@@ -15,32 +15,52 @@ import org.springframework.stereotype.Repository;
 
 import ru.bellintegrator.api.model.Country;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class CountryDaoImpl implements CountryDao {
 
 	private final EntityManager em;
 
+	/**
+	 * внедрение зависимости entityManager через конструктор
+	 * 
+	 * @param em
+	 */
 	@Autowired
 	public CountryDaoImpl(EntityManager em) {
 		this.em = em;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Country> all() {
 		TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c", Country.class);
 		return query.getResultList();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Country loadById(Long id) {
 		return em.find(Country.class, id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save(Country country) {
 		em.persist(country);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Country> loadByCode(String code) {
 		CriteriaQuery<Country> criteria = buildCriteria(code);
@@ -48,6 +68,12 @@ public class CountryDaoImpl implements CountryDao {
 		return query.getResultList();
 	}
 
+	/**
+	 * построение критерия запроса для поиска по коду страны
+	 * 
+	 * @param code
+	 * @return
+	 */
 	private CriteriaQuery<Country> buildCriteria(String code) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Country> criteria = builder.createQuery(Country.class);

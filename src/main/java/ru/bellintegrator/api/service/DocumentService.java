@@ -2,14 +2,18 @@ package ru.bellintegrator.api.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
 import ru.bellintegrator.api.views.DocumentView;
 
+/**
+ * сервисо списка документов
+ */
 public interface DocumentService {
-	
+
+	/**
+	 * получение списка всех документов
+	 * 
+	 * @return
+	 */
 	public List<DocumentView> getAllDocumentTypes();
-	
+
 }

@@ -15,10 +15,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+/**
+ * личный документ
+ */
 @Entity
 @Table(name = "User_document")
 public class PersonalDoc {
 
+	/**
+	 * id персонального документа
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -30,18 +36,26 @@ public class PersonalDoc {
 	@Version
 	private Integer version;
 
+	/**
+	 * номер персонального документа
+	 */
 	@Column(name = "doc_number", length = 50, nullable = false)
 	private String number;
 
+	/**
+	 * дата выдачи персонального документа
+	 */
 	@Column(name = "doc_date")
 	@Temporal(TemporalType.DATE)
 	private Date docDate;
 
+	/**
+	 * тип документа, связь по внешнему ключу с таблицей доступных типов документов
+	 */
 	@ManyToOne(fetch = FetchType.LAZY) // not to download all the data from join table.
 	@JoinColumn(name = "doc_id")
 	private Doc document;
 
-	// getters ad setters
 	public Long getId() {
 		return id;
 	}

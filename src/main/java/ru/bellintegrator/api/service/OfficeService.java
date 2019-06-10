@@ -5,30 +5,47 @@ import java.util.List;
 import ru.bellintegrator.api.views.OfficeView;
 import ru.bellintegrator.api.views.SuccessView;
 
+/**
+ * сервис офиса
+ */
 public interface OfficeService {
-	
-	/*
-	 * возвращает список офисов
+
+	/**
+	 * получить список офисов
+	 * 
+	 * @return
 	 */
 	List<OfficeView> offices();
-	
-	/*
-	 * возвращает офис по id
+
+	/**
+	 * получить офис по id
+	 * 
+	 * @param id
+	 * @return
 	 */
 	OfficeView getOfficeById(Long id);
-	
-	/*
-	 * добавляет новый офис 
+
+	/**
+	 * добавить новый офис
+	 * 
+	 * @param office
+	 * @return
 	 */
 	SuccessView insertOffice(OfficeView office);
-	
-	/*
-	 * изменяет данные офиса
+
+	/**
+	 * изменить данные офиса
+	 * 
+	 * @param office
+	 * @return
 	 */
 	SuccessView updateOffice(OfficeView office);
-	
-	/*
-	 * возвращает список офисов по ID организации
+
+	/**
+	 * получить список офисов по ID организации
+	 * 
+	 * @param view
+	 * @return
 	 */
 	List<OfficeView> listOfficesByOrgId(OfficeView view);
 

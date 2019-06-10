@@ -23,11 +23,20 @@ public class DocumentServiceImpl implements DocumentService {
 		this.docDao = docDao;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<DocumentView> getAllDocumentTypes() {
 		return mapAllDocuments(docDao.all());
 	}
 
+	/**
+	 * Отображение объекта документа на его представление
+	 * 
+	 * @param doc
+	 * @return
+	 */
 	private DocumentView mapDoc(Doc doc) {
 		DocumentView dv = new DocumentView();
 		dv.setCode(doc.getCode());
@@ -35,6 +44,12 @@ public class DocumentServiceImpl implements DocumentService {
 		return dv;
 	}
 
+	/**
+	 * Отображение списка объектов документа на список представлений
+	 * 
+	 * @param docs
+	 * @return
+	 */
 	private List<DocumentView> mapAllDocuments(List<Doc> docs) {
 		List<DocumentView> views = new ArrayList<>();
 		for (Doc doc : docs) {

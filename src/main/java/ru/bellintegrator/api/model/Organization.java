@@ -13,17 +13,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-/*
- *  Pattern for model
- * 
+/**
+ * организация
  */
-
-//Organization model
-
 @Entity
 @Table(name = "Organization")
 public class Organization {
 
+	/**
+	 * id организации (первичный ключ)
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -35,31 +34,74 @@ public class Organization {
 	@Version
 	private Integer version;
 
+	/**
+	 * имя организации
+	 */
 	@Column(name = "name", length = 50, nullable = false)
 	private String name;
 
+	/**
+	 * полное имя организации
+	 */
 	@Column(name = "full_name", length = 50, nullable = false)
 	private String fullName;
 
+	/**
+	 * ИНН организации
+	 */
 	@Column(name = "inn", nullable = false)
 	private String inn;
 
+	/**
+	 * КПП организации
+	 */
 	@Column(name = "kpp", nullable = false)
 	private String kpp;
 
+	/**
+	 * адрес организации
+	 */
 	@Column(name = "address", length = 50, nullable = false)
 	private String address;
 
+	/**
+	 * телефон организации
+	 */
 	private String phone;
 
+	/**
+	 * активность организации
+	 */
 	@Column(name = "is_active")
 	private boolean isActive;
 
+	/**
+	 * список офисов данной организации внешний ключ на таблицу офисов
+	 */
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "organization_id")
 	private List<Office> offices;
 
-	// Getters and Setters
+	/**
+	 * синхронизации офиса и организации
+	 * 
+	 * @param office
+	 */
+	public void addOffice(Office office) {
+		getOffices().add(office);
+		office.setOrganization(this);
+	}
+
+	/**
+	 * удаление офиса из списка
+	 * 
+	 * @param office
+	 */
+	public void removeOffice(Office office) {
+		getOffices().remove(office);
+		office.setOrganization(null);
+	}
+
 	public List<Office> getOffices() {
 		return offices;
 	}
@@ -73,17 +115,6 @@ public class Organization {
 
 	public Organization(Long id) {
 		this.id = id;
-	}
-
-	// synchronization of the entities
-	public void addOffice(Office office) {
-		getOffices().add(office);
-		office.setOrganization(this);
-	}
-
-	public void removeOffice(Office office) {
-		getOffices().remove(office);
-		office.setOrganization(null);
 	}
 
 	public Long getId() {

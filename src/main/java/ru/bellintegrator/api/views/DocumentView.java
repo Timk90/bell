@@ -5,18 +5,26 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * отображение документа
+ */
 @ApiModel(description = "отображение документа")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DocumentView {
 
+	/**
+	 * имя для отображения документа
+	 */
 	@ApiModelProperty(value = "название документа", example = "паспорт")
 	String name;
 
+	/**
+	 * код для отображения документа
+	 */
 	@ApiModelProperty(value = "код документа", example = "82")
 	String code;
 
 	public DocumentView() {
-		super();
 	}
 
 	public String getName() {

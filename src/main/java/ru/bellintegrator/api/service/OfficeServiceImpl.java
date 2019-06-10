@@ -31,6 +31,9 @@ public class OfficeServiceImpl implements OfficeService {
 		this.organizationDao = organizationDao;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<OfficeView> offices() {
 		// TODO Auto-generated method stub
@@ -38,12 +41,18 @@ public class OfficeServiceImpl implements OfficeService {
 		return mapAllOffices(offices);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public OfficeView getOfficeById(Long id) {
 		Office office = officeDao.loadById(id);
 		return mapOffice(office);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SuccessView insertOffice(OfficeView officeView) {
 		if (officeView.getOrgId() != null && !officeView.getOrgId().equals("")) {
@@ -79,6 +88,9 @@ public class OfficeServiceImpl implements OfficeService {
 		return new SuccessView("Success");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SuccessView updateOffice(OfficeView officeView) {
 		if (officeView.getId() != null) {
@@ -111,6 +123,9 @@ public class OfficeServiceImpl implements OfficeService {
 		return new SuccessView("Success");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<OfficeView> listOfficesByOrgId(OfficeView view) {
 		if (view.getOrgId() != null) {
@@ -123,6 +138,12 @@ public class OfficeServiceImpl implements OfficeService {
 
 	}
 
+	/**
+	 * отображение офиса на его представление
+	 * 
+	 * @param office
+	 * @return
+	 */
 	private static OfficeView mapOffice(Office office) {
 		OfficeView view = new OfficeView();
 		view.setId(office.getId() + "");
@@ -135,6 +156,12 @@ public class OfficeServiceImpl implements OfficeService {
 
 	}
 
+	/**
+	 * отображение списка офисов на список представлений
+	 * 
+	 * @param offices
+	 * @return
+	 */
 	private static List<OfficeView> mapAllOffices(List<Office> offices) {
 		List<OfficeView> views = new ArrayList<>();
 		for (Office office : offices) {

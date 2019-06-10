@@ -27,6 +27,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		this.orgDao = orgDao;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<OrganizationView> listOrgByName(OrganizationView view) {
 
@@ -37,16 +40,25 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<OrganizationView> organizations() {
 		return mapAllOrganizations(orgDao.all());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public OrganizationView getOrgById(Long id) {
 		return mapOrganization(orgDao.loadById(id));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SuccessView insertOrganization(OrganizationView view) {
 		if (view.getName() != null && view.getFullName() != null && view.getInn() != null && view.getKpp() != null
@@ -66,6 +78,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return new SuccessView("Success!");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SuccessView updateOrganization(OrganizationView view) {
 		if (view.getId() != null) {
@@ -99,6 +114,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return new SuccessView("Success!");
 	}
 
+	/**
+	 * отображение организации на соответствующее представление
+	 * 
+	 * @param org
+	 * @return
+	 */
 	private OrganizationView mapOrganization(Organization org) {
 		OrganizationView view = new OrganizationView();
 		view.setId(org.getId() + "");
@@ -111,6 +132,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return view;
 	}
 
+	/**
+	 * отображение списка организаций на соответствующий список представлений
+	 * 
+	 * @param orgs
+	 * @return
+	 */
 	private List<OrganizationView> mapAllOrganizations(List<Organization> orgs) {
 		List<OrganizationView> views = new ArrayList<>();
 		for (Organization org : orgs) {

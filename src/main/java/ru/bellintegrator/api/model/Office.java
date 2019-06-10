@@ -11,17 +11,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-/*
- *  Pattern for model
- *  
+/**
+ * офис
  */
-
-//Office model
-
 @Entity
 @Table(name = "Office")
 public class Office {
 
+	/**
+	 * id офиса
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -33,22 +32,36 @@ public class Office {
 	@Version
 	private Integer version;
 
+	/**
+	 * имя офиса
+	 */
 	@Column(name = "name", length = 50, nullable = false)
 	private String name;
 
+	/**
+	 * адрес офиса
+	 */
 	@Column(name = "address", length = 50, nullable = false)
 	private String address;
 
+	/**
+	 * телефон офиса
+	 */
 	private String phone;
 
+	/**
+	 * поле активности офиса
+	 */
 	@Column(name = "is_active")
 	private boolean isActive;
 
+	/**
+	 * поле организации связть с таблицей организации
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "organization_id")
 	private Organization organization;
 
-	// Getters and Setters
 	public Integer getVersion() {
 		return version;
 	}

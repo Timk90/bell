@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
 import ru.bellintegrator.api.exceptions.IncorrectDateFormatException;
 import ru.bellintegrator.api.exceptions.IncorrectIdFormatException;
 import ru.bellintegrator.api.exceptions.IncorrectInsertOrganizationDataException;
@@ -29,16 +30,30 @@ import ru.bellintegrator.api.views.DataView;
 import ru.bellintegrator.api.views.ErrorView;
 import ru.bellintegrator.api.views.SuccessView;
 
+/**
+ * класс обработки exceptions и оборачивания полученных данных из views в json
+ * объект {"data":"{...}"}
+ */
 @ControllerAdvice
 public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 
+	/**
+	 * добавление логирования
+	 */
 	Logger logger = LoggerFactory.getLogger(ControllersExceptionHandler.class);
 
+	/**
+	 * включена поддержка всех запросов методом beforeBodyWrite без исключений и
+	 * ограничений
+	 */
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 		return true;
 	}
 
+	/**
+	 * при успешном запросе метод оборачивает views в json data.
+	 */
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
@@ -51,9 +66,14 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return body;
 	}
 
+	/**
+	 * обработка исключения при указании данных несуществующего пользователя
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(NoSuchUserException.class)
-	// @RequestMapping(value="/api/user/error+json")
 	public ErrorView handleNoSuchUserException(NoSuchUserException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("No such user exists in DB");
@@ -61,9 +81,14 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании данных несуществующего офиса
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(NoSuchOfficeException.class)
-	// @RequestMapping(value="/api/user/error+json")
 	public ErrorView handleNoSuchOfficeException(NoSuchOfficeException ex) {
 		ErrorView error = new ErrorView();
 		error.setError("No such office exists");
@@ -71,6 +96,13 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при неправильном указании данных существующего
+	 * пользователя
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectUserDetailsException.class)
 	public ErrorView handleNoUsernameOrPostionException(IncorrectUserDetailsException ex) {
@@ -80,6 +112,13 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при неправильном указании данных существующего
+	 * пользователя при попытке их изменения
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorretUserUpdateDataException.class)
 	public ErrorView handleNoUsernameOrPostionException(IncorretUserUpdateDataException ex) {
@@ -89,6 +128,13 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при неправильном указании данных для вставки нового
+	 * пользователя
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(InsertUserException.class)
 	public ErrorView handleInsertUserException(InsertUserException ex) {
@@ -98,6 +144,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при неправильном указании формата даты
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectDateFormatException.class)
 	public ErrorView handleIncorrectDataFormatException(IncorrectDateFormatException ex) {
@@ -107,6 +159,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании данных несуществующей страны
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(NoSuchCountryException.class)
 	public ErrorView handleNoSuchCountryException(NoSuchCountryException ex) {
@@ -116,6 +174,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании данных несуществующего документа
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(NoSuchDocumentException.class)
 	public ErrorView handleNoSuchDocumentException(NoSuchDocumentException ex) {
@@ -125,6 +189,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании неправильного id (не целое число типа Long)
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectIdFormatException.class)
 	public ErrorView handleIncorrectIdFormatException(IncorrectIdFormatException ex) {
@@ -134,6 +204,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании некорректных данных для изменения офиса
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectOfficeUpdateDataException.class)
 	public ErrorView handleIncorrectOfficeUpdateDataException(IncorrectOfficeUpdateDataException ex) {
@@ -143,6 +219,13 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании некорректных данных для в вставки нового
+	 * офиса
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectOfficeInsertDataException.class)
 	public ErrorView handleIncorrectOfficeUpdateDataException(IncorrectOfficeInsertDataException ex) {
@@ -152,6 +235,13 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании некорректных данных для вставки новой
+	 * организации
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectInsertOrganizationDataException.class)
 	public ErrorView handleIncorrectInsertOrganizationDataException(IncorrectInsertOrganizationDataException ex) {
@@ -161,6 +251,13 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при неправильном указании данных для изменения
+	 * организации
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(IncorrectUpdateOrganizationDataException.class)
 	public ErrorView handleIncorrectUpdateOrganizationDataException(IncorrectUpdateOrganizationDataException ex) {
@@ -170,6 +267,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка исключения при указании данных несуществующей организации
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(NoSuchOrganizationException.class)
 	public ErrorView handleNoSuchOrganizationException(NoSuchOrganizationException ex) {
@@ -179,6 +282,12 @@ public class ControllersExceptionHandler implements ResponseBodyAdvice<Object> {
 		return error;
 	}
 
+	/**
+	 * обработка остальных типов неучтенных исключений
+	 * 
+	 * @param ex
+	 * @return
+	 */
 	@ResponseBody
 	@ExceptionHandler(Exception.class)
 	public ErrorView handleException(Exception ex) {

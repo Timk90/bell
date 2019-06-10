@@ -20,11 +20,19 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
 	private final EntityManager em;
 
+	/**
+	 * внедрение entityManager через конструктор
+	 * 
+	 * @param em
+	 */
 	@Autowired
 	public OrganizationDaoImpl(EntityManager em) {
 		this.em = em;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Organization> loadByName(String name, String inn, boolean isActive) {
 		CriteriaQuery<Organization> criteria = buildCriteria(name, inn, isActive);
@@ -32,17 +40,26 @@ public class OrganizationDaoImpl implements OrganizationDao {
 		return query.getResultList();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Organization> all() {
 		TypedQuery<Organization> query = em.createQuery("SELECT o FROM Organization o", Organization.class);
 		return query.getResultList();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Organization loadById(Long id) {
 		return em.find(Organization.class, id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save(Organization organization) {
 		if (organization.getId() == null) {
@@ -52,6 +69,14 @@ public class OrganizationDaoImpl implements OrganizationDao {
 		}
 	}
 
+	/**
+	 * создание критерия для получения списка организаций по заданному фильтру
+	 * 
+	 * @param name
+	 * @param inn
+	 * @param isActive
+	 * @return
+	 */
 	private CriteriaQuery<Organization> buildCriteria(String name, String inn, boolean isActive) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class);

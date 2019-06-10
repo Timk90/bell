@@ -15,6 +15,10 @@ public class UserDaoImpl implements UserDao {
 
 	private final EntityManager em;
 
+	/**
+	 * внедрение зависимости entityManager
+	 * @param em
+	 */
 	@Autowired
 	public UserDaoImpl(EntityManager em) {
 		this.em = em;

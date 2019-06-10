@@ -15,27 +15,43 @@ public class PerosnalDocDaoImpl implements PersonalDocDao {
 
 	private final EntityManager em;
 
+	/**
+	 * внедрение зависимости entityManager через конструктор 
+	 * @param em
+	 */
 	@Autowired
 	public PerosnalDocDaoImpl(EntityManager em) {
 		this.em = em;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<PersonalDoc> all() {
 		TypedQuery<PersonalDoc> query = em.createQuery("SELECT o FROM Office o", PersonalDoc.class);
 		return query.getResultList();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public PersonalDoc loadById(Long id) {
 		return em.find(PersonalDoc.class, id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public PersonalDoc loadByName(String name) {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void save(PersonalDoc personalDoc) {
 		if (personalDoc.getId() == null) {

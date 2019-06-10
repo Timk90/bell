@@ -8,10 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+/**
+ * документ
+ */
 @Entity
 @Table(name = "Docs")
 public class Doc {
 
+	/**
+	 * id документа
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -23,13 +29,18 @@ public class Doc {
 	@Version
 	private Integer version;
 
+	/**
+	 * код документа
+	 */
 	@Column(name = "code", length = 50, nullable = false)
 	private String code;
 
+	/**
+	 * имя документа
+	 */
 	@Column(name = "name", length = 150, nullable = false)
 	private String name;
 
-	// getters and setters
 	public long getId() {
 		return id;
 	}

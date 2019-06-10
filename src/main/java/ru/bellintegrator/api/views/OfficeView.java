@@ -8,31 +8,52 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * отображение офиса
+ */
 @ApiModel(description = "офис")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfficeView {
 
+	/**
+	 * id отображения
+	 */
 	@NotEmpty
 	@ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
 	private String id;
 
+	/**
+	 * имя представления офиса
+	 */
 	@Size(max = 50)
 	// @NotEmpty(message = "name cannot be null")
 	@ApiModelProperty(value = "Название", example = "Bosh Inc Ltd itd...")
 	private String name;
 
+	/**
+	 * адрес представления офиса
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Адрес", example = "Восход 13")
 	private String address;
 
+	/**
+	 * номер телефона представления офиса
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "Телефон", example = "9323199813")
 	private String phone;
 
+	/**
+	 * id организации представления офиса
+	 */
 	@Size(max = 50)
 	@ApiModelProperty(value = "ID организации", example = "1")
 	private String orgId;
 
+	/**
+	 * активность представления офиса
+	 */
 	private boolean isActive;
 
 	public OfficeView() {
@@ -49,7 +70,6 @@ public class OfficeView {
 		this.isActive = isActive;
 	}
 
-	// getters and setters
 	public String getId() {
 		return id;
 	}

@@ -22,11 +22,20 @@ public class CountryServiceImpl implements CountryService {
 		this.countryDao = countryDao;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<CountryView> getAllCountries() {
 		return mapAllCountries(countryDao.all());
 	}
 
+	/**
+	 * отображение объекта страны на ообъект представления страны
+	 * 
+	 * @param country
+	 * @return
+	 */
 	private CountryView mapCountry(Country country) {
 		CountryView view = new CountryView();
 		view.setCode(country.getCode());
@@ -34,6 +43,12 @@ public class CountryServiceImpl implements CountryService {
 		return view;
 	}
 
+	/**
+	 * отображение списка объектов страны на список объектов представления страны
+	 * 
+	 * @param countries
+	 * @return
+	 */
 	private List<CountryView> mapAllCountries(List<Country> countries) {
 		List<CountryView> countryViews = new ArrayList<>();
 		for (Country country : countries) {

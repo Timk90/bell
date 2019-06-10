@@ -12,17 +12,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-/*
- * Pattern for model
- * 
+/**
+ * сотрудник
  */
-
-//User model
-
 @Entity
 @Table(name = "User")
 public class User {
 
+	/**
+	 * id сотрудника
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -34,36 +33,61 @@ public class User {
 	@Version
 	private Integer version;
 
+	/**
+	 * имя сотрудника
+	 */
 	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstName;
 
+	/**
+	 * фамилия сотрудника
+	 */
 	@Column(name = "second_name", length = 50)
 	private String secondName;
 
+	/**
+	 * отчество сотрудника
+	 */
 	@Column(name = "middle_name", length = 50)
 	private String middleName;
 
+	/**
+	 * должность сотрудника
+	 */
 	@Column(name = "position", length = 50, nullable = false)
 	private String position;
 
+	/**
+	 * номер телефона сотрудника
+	 */
 	private String phone;
 
+	/**
+	 * личный документ сотрудника внешний ключ на таблицу личных документов
+	 */
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "personal_doc_id")
 	private PersonalDoc personalDocument;
 
+	/**
+	 * офис места работы сотрудника внешний ключ на таблицу офисов
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_id")
 	private Office office;
 
+	/**
+	 * гражданство сотрдуника внешний ключ на таблицу стран
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "citizenship_id")
 	private Country citizenship;
 
+	/**
+	 * указание на то является ли сотрудник идентифицированным
+	 */
 	@Column(name = "is_identified")
 	private boolean isIdentified;
-
-	// getters and setters
 
 	public long getId() {
 		return id;
