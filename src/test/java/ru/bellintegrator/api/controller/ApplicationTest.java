@@ -1,5 +1,9 @@
 package ru.bellintegrator.api.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,15 +26,21 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ru.bellintegrator.api.Application;
 import ru.bellintegrator.api.controller.office.OfficeController;
 import ru.bellintegrator.api.daoOffice.OfficeDao;
 import ru.bellintegrator.api.model.Office;
+import ru.bellintegrator.api.model.User;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { Application.class })
+@SpringBootTest(classes = {Application.class })
 @Transactional // After I added this LazyInitializationException disappeared
-public class AoolicationsTest {
+public class ApplicationTest {
 
 	  @MockBean
 	  OfficeController officeController;
@@ -38,26 +48,41 @@ public class AoolicationsTest {
 	
 	  @Autowired
 	  private WebApplicationContext wac;
+	  
 	  private MockMvc mockMvc;
-	  private OfficeDao officeDao;
 		
 	  @Before
 	  public void setup() {
-	      DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-	      this.mockMvc = builder.build();
+//	      DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//	      this.mockMvc = builder.build();
+		  mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	  }
+	  
+	  protected String mapToJson(Object obj) throws JsonProcessingException {
+	      ObjectMapper objectMapper = new ObjectMapper();
+	      return objectMapper.writeValueAsString(obj);
+	   }
+	   protected <T> T mapFromJson(String json, Class<T> clazz)
+	      throws JsonParseException, JsonMappingException, IOException {
+	      
+	      ObjectMapper objectMapper = new ObjectMapper();
+	      return objectMapper.readValue(json, clazz);
+	   }
 	
 	@Test
-	public void controller_test() throws Exception {
-		   Office office = new Office();
-		   
-		    List<Office> offices = Arrays.asList(office);
-		 
-		    MockHttpServletRequestBuilder builder =
-		              MockMvcRequestBuilders.get("/api/office/list").accept(MediaType.APPLICATION_JSON);
-		    
-		    MvcResult rt  = this.mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-		    System.out.println(rt.getResponse().getContentAsString());
+	public void TestControllerGetUsers() throws Exception {
+		
+		String uri = "/api/user/list";
+		
+		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
+		
+		String content = mvcResult.getResponse().getContentAsString();
+		System.out.println(content);
+		//List<User> users = this.mapFromJson(content, List.class);
+		//assertTrue(users.size()>0);
+		//System.out.println(users);
 		    
 		    
 	}
